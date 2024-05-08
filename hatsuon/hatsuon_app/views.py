@@ -26,6 +26,15 @@ class CollectionViewSet(viewsets.ModelViewSet):
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    lookup_field = "uuid"
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the clipboards
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return Collection.objects.filter(created_by=user)
