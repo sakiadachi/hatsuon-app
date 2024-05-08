@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from hatsuon_app.models import Collection
+from hatsuon_app.models import Collection, Phrase
 
 
 class CollectionSerializer(serializers.ModelSerializer):
@@ -8,6 +8,14 @@ class CollectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Collection
+        fields = "__all__"
+
+
+class PhraseSerializer(serializers.ModelSerializer):
+    created_by = serializers.ReadOnlyField(source="created_by.username")
+
+    class Meta:
+        model = Phrase
         fields = "__all__"
 
 

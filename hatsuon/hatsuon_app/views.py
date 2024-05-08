@@ -1,11 +1,10 @@
 from django.contrib.auth.models import User
 
-from rest_framework import permissions, viewsets
+from rest_framework import viewsets
 
 from hatsuon_app.serializers import UserSerializer
-from hatsuon_app.models import Collection
-from hatsuon_app.serializers import CollectionSerializer
-from hatsuon_app.permissions import IsOwnerOrReadOnly
+from hatsuon_app.models import Collection, Phrase
+from hatsuon_app.serializers import CollectionSerializer, PhraseSerializer
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -25,7 +24,6 @@ class CollectionViewSet(viewsets.ModelViewSet):
 
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     lookup_field = "uuid"
 
     def perform_create(self, serializer):
@@ -38,3 +36,20 @@ class CollectionViewSet(viewsets.ModelViewSet):
         """
         user = self.request.user
         return Collection.objects.filter(created_by=user)
+
+
+class PhraseViewSet(viewsets.ModelViewSet):
+    queryset = Phrase.objects.all()
+    serializer_class = PhraseSerializer
+    lookup_field = "uuid"
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the clipboards
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return Phrase.objects.filter(created_by=user)
