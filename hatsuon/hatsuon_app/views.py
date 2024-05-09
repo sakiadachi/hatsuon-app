@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from hatsuon_app.serializers import UserSerializer
 from hatsuon_app.models import Collection, Phrase
@@ -25,6 +26,7 @@ class CollectionViewSet(viewsets.ModelViewSet):
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
     lookup_field = "uuid"
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
@@ -42,6 +44,7 @@ class PhraseViewSet(viewsets.ModelViewSet):
     queryset = Phrase.objects.all()
     serializer_class = PhraseSerializer
     lookup_field = "uuid"
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
