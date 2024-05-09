@@ -13,7 +13,7 @@ class Phrase(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    recording = models.FilePathField(null=True)
+    recording = models.FileField(upload_to="", null=True)
 
     created_by = models.ForeignKey("auth.User", on_delete=models.CASCADE)
 
@@ -31,6 +31,7 @@ class Collection(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField()
+    phrases = models.ForeignKey(Phrase, on_delete=models.CASCADE, null=True)
 
     uuid = models.UUIDField(
         default=uuid.uuid4, editable=False, db_index=True, unique=True
