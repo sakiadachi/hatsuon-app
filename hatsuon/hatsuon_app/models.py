@@ -31,7 +31,7 @@ class Collection(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField(default="")
-    phrases = models.ForeignKey(Phrase, on_delete=models.CASCADE, null=True)
+    phrases = models.ManyToManyField(Phrase, null=True)
 
     uuid = models.UUIDField(
         default=uuid.uuid4, editable=False, db_index=True, unique=True
