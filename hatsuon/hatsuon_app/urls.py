@@ -15,3 +15,7 @@ urlpatterns = [
     path("", include(router.urls)),
     path("", include(collections_router.urls)),
 ]
+
+frontend_urlpatterns = [
+    path("", views.SpaView.as_view(), name="home"),
+]

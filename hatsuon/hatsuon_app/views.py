@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.views.generic.base import TemplateView
 
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
@@ -6,6 +7,10 @@ from rest_framework.permissions import IsAuthenticated
 from hatsuon_app.serializers import UserSerializer
 from hatsuon_app.models import Collection, Phrase
 from hatsuon_app.serializers import CollectionSerializer, PhraseSerializer
+
+
+class SpaView(TemplateView):
+    template_name = "frontend/base.html"
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):

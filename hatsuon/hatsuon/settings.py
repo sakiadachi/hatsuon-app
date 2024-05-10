@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-=y7c-3ht^l=fe+t=7=d$)@j3rm@f4s2%(*lhv!9p)w5er&yrug
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -118,6 +119,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR.joinpath("staticfiles")
+
+VITE_APP_DIR = BASE_DIR.joinpath("frontend")
+if DEBUG:
+    STATICFILES_DIRS = [VITE_APP_DIR]
+else:
+    STATICFILES_DIRS = [VITE_APP_DIR.joinpath("dist")]
+
+INTERNAL_IPS = ["127.0.0.1", "localhost"]
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    }
+}
+# STATIC_FILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

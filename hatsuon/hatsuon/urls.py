@@ -17,9 +17,11 @@ Including another URLconf
 
 from django.urls import include, path
 from django.contrib import admin
+from hatsuon_app.urls import frontend_urlpatterns, urlpatterns
 
 urlpatterns = [
-    path("api/v1/", include("hatsuon_app.urls")),
+    path("home/", include(frontend_urlpatterns)),
+    path("api/v1/", include(urlpatterns)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("admin/", admin.site.urls),
 ]
