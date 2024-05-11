@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
 from hatsuon_app import views
 
+
 router = DefaultRouter()
 router.register(r"collections", views.CollectionViewSet)
 router.register(r"users", views.UserViewSet)
@@ -15,7 +16,7 @@ urlpatterns = [
     path("", include(router.urls)),
     path("", include(collections_router.urls)),
 ]
-
 frontend_urlpatterns = [
-    path("", views.SpaView.as_view(), name="home"),
+    path(r"", views.SpaView.as_view(), name="spa"),
+    path(r"collection", views.SpaView.as_view(), name="spa"),
 ]
