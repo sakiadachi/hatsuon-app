@@ -10,6 +10,8 @@ from hatsuon_app.serializers import CollectionSerializer, PhraseSerializer
 
 
 class SpaView(TemplateView):
+    """View for Frontend"""
+
     template_name = "frontend/base.html"
 
 
@@ -69,6 +71,8 @@ class CollectionViewSet(viewsets.ModelViewSet):
 
 
 class PhraseViewSet(viewsets.ModelViewSet):
+    """Phease"""
+
     queryset = Phrase.objects.all()
     serializer_class = PhraseSerializer
     lookup_field = "uuid"
