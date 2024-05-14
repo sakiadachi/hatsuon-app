@@ -19,9 +19,10 @@ from django.urls import include, path
 from django.contrib import admin
 from hatsuon_app.urls import frontend_urlpatterns, urlpatterns
 
+print(urlpatterns)
 urlpatterns = [
     path("api/v1/", include(urlpatterns)),
-    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("api-auth/", include("dj_rest_auth.urls")),
     path("admin/", admin.site.urls),
     path("", include(frontend_urlpatterns)),
 ]
