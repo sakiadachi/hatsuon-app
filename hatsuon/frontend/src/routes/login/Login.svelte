@@ -1,7 +1,8 @@
 <script lang="ts">
   import { fetchApi } from "../../utils/fetchApi";
   import { navigate } from "svelte-routing";
-
+  import RouteWrapper from "../RouteWrapper.svelte";
+  import { isLoggedIn } from "../../store/login_store";
   const handleSubmit = async (
     event: SubmitEvent & {
       currentTarget: EventTarget & HTMLFormElement;
@@ -33,27 +34,29 @@
     )
       .then((res) => JSON.stringify(res))
       .then((res) => {
-        // TODO: Login state registering
-        navigate("/collection");
+        isLoggedIn.set(true);
+        navigate("/collection", { replace: true });
         console.log(res);
       })
       .catch((e) => {
-        // TODO: Show error text on page
+        isLoggedIn.set(false);
         console.error(e);
         alert("Login failed");
       });
   };
 </script>
 
-<h1>Login</h1>
-<form on:submit={handleSubmit}>
-  <label>
-    User Name:
-    <input type="text" name="username" />
-  </label>
-  <label>
-    Password:
-    <input type="password" name="password" />
-  </label>
-  <button type="submit">submit</button>
-</form>
+<RouteWrapper>
+  <h1>Login</h1>
+  <form on:submit={handleSubmit}>
+    <label>
+      User Name:
+      <input type="text" name="username" />
+    </label>
+    <label>
+      Password:
+      <input type="password" name="password" />
+    </label>
+    <button type="submit">submit</button>
+  </form>
+</RouteWrapper>
