@@ -1,25 +1,25 @@
 <script lang="ts">
-  import auth_store from "../../store/auth_store";
+import auth_store from "../../store/auth_store";
 
-  const { login } = auth_store;
+const { login } = auth_store;
 
-  const handleSubmit = async (
-    event: SubmitEvent & {
-      currentTarget: EventTarget & HTMLFormElement;
-    },
-  ) => {
-    event.preventDefault();
-    if (event.target == null) {
-      return;
-    }
+const handleSubmit = async (
+	event: SubmitEvent & {
+		currentTarget: EventTarget & HTMLFormElement;
+	},
+) => {
+	event.preventDefault();
+	if (event.target == null) {
+		return;
+	}
 
-    const target = event.target as HTMLFormElement;
-    const formData = new FormData(target);
-    const username = formData.get("username").toString();
-    const password = formData.get("password").toString();
+	const target = event.target as HTMLFormElement;
+	const formData = new FormData(target);
+	const username = formData.get("username").toString();
+	const password = formData.get("password").toString();
 
-    await login(username, password);
-  };
+	await login(username, password);
+};
 </script>
 
 <h1>Login</h1>

@@ -19,5 +19,5 @@ urlpatterns = [
 frontend_urlpatterns = [
     path(r"", views.SpaView.as_view(), name="spa"),
     path(r"login", views.SpaView.as_view(), name="spa"),
-    path(r"collection", views.SpaView.as_view(), name="spa"),
+    path(r"collection/<slug:id>", views.SpaView.as_view(), name="spa"),
 ]
