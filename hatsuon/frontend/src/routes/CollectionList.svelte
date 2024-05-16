@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Collection } from "../store/types/collection";
-  import {Link} from "svelte-routing"
-  export let collections: Collection[];
+import type { Collection } from "../store/types/collection";
+import { Link } from "svelte-routing";
+export let collections: Collection[];
 </script>
 
 <ul class="w-full">
