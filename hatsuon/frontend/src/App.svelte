@@ -5,6 +5,7 @@
   import Login from "./routes/login/Login.svelte";
   import { fetchApi } from "./utils/fetchApi";
   import Logout from "./routes/logout/Logout.svelte";
+  import PrivateRouteWrapper from "./components/PrivateRouteWrapper.svelte";
 
   export let url = "";
 
@@ -14,7 +15,7 @@
       {
         method: "POST",
       },
-      { "Content-Type": "application/json" }
+      { "Content-Type": "application/json" },
     );
     if (result.ok) {
       navigate("/logout", { replace: true });
@@ -33,9 +34,13 @@
     </nav>
     <div>
       <Route path="/logout" component={Logout} />
-      <Route path="/collection" component={Collection} />
       <Route path="/login" component={Login} />
-      <Route path="/"><Home /></Route>
+      <PrivateRouteWrapper path="/">
+        <Home />
+      </PrivateRouteWrapper>
+      <PrivateRouteWrapper path="/collection">
+        <Collection />
+      </PrivateRouteWrapper>
     </div>
   </Router>
 </main>
