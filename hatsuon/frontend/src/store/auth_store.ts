@@ -1,7 +1,6 @@
 import { writable } from "svelte/store";
 import { fetchApi } from "../utils/fetchApi";
 import { navigate } from "svelte-routing";
-import { tick } from "svelte";
 
 /**
  * If user is logged in, returns true
@@ -12,7 +11,7 @@ const isLoggedIn = writable(false);
  * Login request
  */
 const login = async (username: string, password: string) => {
-  fetchApi(
+  const result = await fetchApi(
     `api-auth/login/`,
     {
       method: "POST",
@@ -22,20 +21,15 @@ const login = async (username: string, password: string) => {
       }),
     },
     { "Content-Type": "application/json" }
-  )
-    .then((res) => JSON.stringify(res))
-    .then(async (res) => {
-      console.log(res);
-      isLoggedIn.set(true);
-      await tick();
-      navigate("/", { replace: true });
-    })
-    .catch((e) => {
-      isLoggedIn.set(false);
-      tick();
-      console.error(e);
-      alert("Login failed");
-    });
+  );
+  if (result.ok) {
+    const json = result.json();
+    isLoggedIn.set(true);
+    navigate("/", { replace: true });
+    return;
+  }
+  isLoggedIn.set(false);
+  console.error("Login failed");
 };
 
 /**
@@ -64,8 +58,10 @@ const logout = async () => {
     { "Content-Type": "application/json" }
   );
   if (result.ok) {
-    navigate("/logout", { replace: true });
+    isLoggedIn.set(false);
+    return true;
   }
+  return false;
 };
 
 export default {

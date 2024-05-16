@@ -6,6 +6,7 @@
   import { fetchApi } from "./utils/fetchApi";
   import Logout from "./routes/logout/Logout.svelte";
   import PrivateRouteWrapper from "./components/PrivateRouteWrapper.svelte";
+  import Header from "./components/Header.svelte"
 
   export let url = "";
 
@@ -23,14 +24,10 @@
   };
 </script>
 
-<main class="h-screen">
+<main class="h-screen w-full">
   <Router {url}>
     <nav>
-      <Link to="/">Home</Link>
-      <Link to="/login">login</Link>
-      <Link to="/collection">Collection</Link>
-
-      <button on:click={logout}>Log out</button>
+      <Header />
     </nav>
     <div>
       <Route path="/logout" component={Logout} />
