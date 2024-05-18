@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { fetchApi } from "../../utils/fetchApi";
   import CollectionDetail from "./CollectionDetail.svelte";
-  import currentCollectionStore from "../../store/current_collection";
+  import currentCollectionStore from "../../store/current_collection_store";
 
   // selected collection uuid
   export let params;

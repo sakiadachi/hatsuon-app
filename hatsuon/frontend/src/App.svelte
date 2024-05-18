@@ -9,7 +9,6 @@
   import { type RouteParams } from "vue-router";
 
   export let url = "";
-  type ParamsType = { child: { params: RouteParams } };
 </script>
 
 <main class="h-screen w-full">

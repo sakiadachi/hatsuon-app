@@ -2,14 +2,29 @@
   import { Link } from "svelte-routing";
   import { currentRoute } from "../store/router";
   import auth_store from "../store/auth_store.ts";
+  import current_collection_store from "../store/current_collection_store.ts";
 
   let shown_nav_item: string[] = [];
 
   const { isLoggedIn } = auth_store;
+  const { collection_id, collection_title } = current_collection_store;
 
   $: {
-    if (!shown_nav_item.includes($currentRoute)) {
-      shown_nav_item.push($currentRoute);
+    switch ($currentRoute) {
+      case "/":
+        shown_nav_item = [];
+        break;
+      case "/collection/":
+        shown_nav_item = ["/collection/"];
+        break;
+      case "/phrase/":
+        shown_nav_item = ["/collection/", "/phrase/"];
+        break;
+      case "/login":
+        shown_nav_item = ["/login"];
+        break;
+      case "/logout":
+        shown_nav_item = ["/logout"];
     }
   }
 </script>
@@ -25,12 +40,20 @@
           <Link to="/">Home</Link>
         </li>
 
-        {#if shown_nav_item.includes("/collection")}
+        {#if shown_nav_item.includes("/collection/")}
           <li
-            aria-current={$currentRoute === "/collection" ? "page" : undefined}
+            aria-current={$currentRoute === "/collection/" ? "page" : undefined}
             class="aria-[current=page]:font-bold"
           >
-            <Link to="/collection">Collection</Link>
+            <Link to="/collection/{$collection_id}">{$collection_title}</Link>
+          </li>
+        {/if}
+        {#if shown_nav_item.includes("/phrase/")}
+          <li
+            aria-current={$currentRoute === "/phrase/" ? "page" : undefined}
+            class="aria-[current=page]:font-bold"
+          >
+            <Link to="/phrase">Collection</Link>
           </li>
         {/if}
       {/if}
