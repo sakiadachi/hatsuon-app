@@ -13,7 +13,7 @@ class PhraseSerializer(serializers.ModelSerializer):
 
 class CollectionSerializer(serializers.ModelSerializer):
     created_by = serializers.ReadOnlyField(source="created_by.username")
-
+    phrases = PhraseSerializer(many=True,read_only=True)
     class Meta:
         model = Collection
         fields = "__all__"
