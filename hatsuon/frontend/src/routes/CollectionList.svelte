@@ -7,8 +7,7 @@
 <ul class="flex flex-col">
   {#each collections as c}
     <li class="hover:bg-slate-200 pl-4 py-1">
-      <a href="/collection/{c.uuid}">{c.title}</a>
-      <Link to="/collection"></Link>
+      <Link to="/collection/{c.uuid}">{c.title}</Link>
     </li>
   {/each}
 </ul>
