@@ -10,6 +10,6 @@
 
 <Route {path} let:params>
   <PrivateGuard>
-    <slot name="child" {params} />
+    <slot {params} />
   </PrivateGuard>
 </Route>

@@ -1,17 +1,17 @@
 <script lang="ts">
-import { Link } from "svelte-routing";
-import { currentRoute } from "../store/router";
-import auth_store from "../store/auth_store.ts";
+  import { Link } from "svelte-routing";
+  import { currentRoute } from "../store/router";
+  import auth_store from "../store/auth_store.ts";
 
-let shown_nav_item: string[] = [];
+  let shown_nav_item: string[] = [];
 
-const { isLoggedIn } = auth_store;
+  const { isLoggedIn } = auth_store;
 
-$: {
-	if (!shown_nav_item.includes($currentRoute)) {
-		shown_nav_item.push($currentRoute);
-	}
-}
+  $: {
+    if (!shown_nav_item.includes($currentRoute)) {
+      shown_nav_item.push($currentRoute);
+    }
+  }
 </script>
 
 <header class="flex w-full p-4">
@@ -56,9 +56,9 @@ $: {
 </header>
 
 <style>
-.breadcrumb li:not(:last-child)::after {
-  display: inline-block;
-  margin: 0 0.5rem;
-  content: "/";
-}
+  .breadcrumb li:not(:last-child)::after {
+    display: inline-block;
+    margin: 0 0.5rem;
+    content: "/";
+  }
 </style>

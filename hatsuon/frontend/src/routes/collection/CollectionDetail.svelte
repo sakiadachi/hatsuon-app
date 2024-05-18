@@ -1,5 +1,5 @@
 <script lang="ts">
-export let collection;
+  export let collection;
 </script>
 
 <h1 class="text-left">{collection.title}</h1>

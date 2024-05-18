@@ -6,23 +6,23 @@
   import Logout from "./routes/logout/Logout.svelte";
   import PrivateRouteWrapper from "./components/PrivateRouteWrapper.svelte";
   import Header from "./components/Header.svelte";
+  import { type RouteParams } from "vue-router";
 
   export let url = "";
+  type ParamsType = { child: { params: RouteParams } };
 </script>
 
 <main class="h-screen w-full">
   <Router {url}>
-    <nav>
-      <Header />
-    </nav>
-    <div>
+    <Header />
+    <div class="w-full max-w-screen-sm mx-auto">
       <Route path="/logout" component={Logout} />
       <Route path="/login" component={Login} />
       <PrivateRouteWrapper path="/">
-        <Home />
+        <slot><Home /></slot>
       </PrivateRouteWrapper>
       <PrivateRouteWrapper path="/collection/:id" let:params>
-        <slot for="child"><Collection {params} /></slot>
+        <slot><Collection {params} /></slot>
       </PrivateRouteWrapper>
     </div>
   </Router>
