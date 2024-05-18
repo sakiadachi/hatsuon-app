@@ -20,10 +20,12 @@ type Phrase = {
   /**
    * original recording file id
    */
-  recording: string;
-  takes: string[];
-  date: number;
+  recording?: string;
+  takes?: string[];
+  created_date: number;
+  created_by: string;
   id: string;
+  uuid: string;
 };
 
 /**
