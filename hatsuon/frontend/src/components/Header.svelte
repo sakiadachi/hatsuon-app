@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { Link } from "svelte-routing";
   import { currentRoute } from "../store/router";
   import auth_store from "../store/auth_store.ts";
@@ -7,18 +8,19 @@
   let shown_nav_item: string[] = [];
 
   const { isLoggedIn } = auth_store;
-  const { collection_id, collection_title } = current_collection_store;
+  const { collection_id, collection_title, phrase_id, phrase_title } =
+    current_collection_store;
 
   $: {
     switch ($currentRoute) {
       case "/":
         shown_nav_item = [];
         break;
-      case "/collection/":
-        shown_nav_item = ["/collection/"];
+      case "/collection/:id":
+        shown_nav_item = ["/collection"];
         break;
-      case "/phrase/":
-        shown_nav_item = ["/collection/", "/phrase/"];
+      case "/collection/:id/phrase/:p_id":
+        shown_nav_item = ["/collection", "/phrase"];
         break;
       case "/login":
         shown_nav_item = ["/login"];
@@ -39,21 +41,26 @@
         >
           <Link to="/">Home</Link>
         </li>
-
-        {#if shown_nav_item.includes("/collection/")}
+        {#if shown_nav_item.includes("/collection")}
           <li
-            aria-current={$currentRoute === "/collection/" ? "page" : undefined}
+            aria-current={$currentRoute === "/collection/:id"
+              ? "page"
+              : undefined}
             class="aria-[current=page]:font-bold"
           >
             <Link to="/collection/{$collection_id}">{$collection_title}</Link>
           </li>
         {/if}
-        {#if shown_nav_item.includes("/phrase/")}
+        {#if shown_nav_item.includes("/phrase")}
           <li
-            aria-current={$currentRoute === "/phrase/" ? "page" : undefined}
+            aria-current={$currentRoute === "/collection/:id/phrase/:p_id"
+              ? "page"
+              : undefined}
             class="aria-[current=page]:font-bold"
           >
-            <Link to="/phrase">Collection</Link>
+            <Link to="/collection/{$collection_id}/phrase/{$phrase_id}"
+              >{$phrase_title}</Link
+            >
           </li>
         {/if}
       {/if}

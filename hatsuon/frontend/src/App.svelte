@@ -7,6 +7,7 @@
   import PrivateRouteWrapper from "./components/PrivateRouteWrapper.svelte";
   import Header from "./components/Header.svelte";
   import { type RouteParams } from "vue-router";
+  import Phrase from "./routes/collection/phrase/Phrase.svelte";
 
   export let url = "";
 </script>
@@ -22,6 +23,9 @@
       </PrivateRouteWrapper>
       <PrivateRouteWrapper path="/collection/:id" let:params>
         <slot><Collection {params} /></slot>
+      </PrivateRouteWrapper>
+      <PrivateRouteWrapper path="/collection/:id/phrase/:p_id" let:params>
+        <slot><Phrase {params} /></slot>
       </PrivateRouteWrapper>
     </div>
   </Router>

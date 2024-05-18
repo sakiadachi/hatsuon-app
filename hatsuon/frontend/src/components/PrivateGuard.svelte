@@ -1,6 +1,10 @@
 <script lang="ts">
   import { beforeUpdate } from "svelte";
-  import { currentRoute } from "../store/router";
+  import {
+    currentRoute,
+    checkRoute,
+    type currentRouteType,
+  } from "../store/router";
   import auth_store from "../store/auth_store";
   import { navigate, useLocation } from "svelte-routing";
 
@@ -11,7 +15,8 @@
     console.log("before update");
     // Check current route
     location = useLocation();
-    currentRoute.set($location.pathname);
+    const newRouteName = checkRoute($location.pathname);
+    currentRoute.set(newRouteName);
     // Check auth state
     await checkHasAuthenticated();
     if (!$isLoggedIn) {

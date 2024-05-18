@@ -13,8 +13,8 @@
     {#each collection.phrases as phrase}
       <li>
         <a
-          href="/collection/{collection.id}/phrase/{phrase}"
-          class="block pl-4 py-1 hover:bg-slate-100">{phrase}</a
+          href="/collection/{collection.uuid}/phrase/{phrase.uuid}"
+          class="block pl-4 py-1 hover:bg-slate-100">{phrase.title}</a
         >
       </li>
     {/each}

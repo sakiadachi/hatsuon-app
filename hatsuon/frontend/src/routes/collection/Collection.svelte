@@ -3,12 +3,12 @@
   import { onMount } from "svelte";
   import { fetchApi } from "../../utils/fetchApi";
   import CollectionDetail from "./CollectionDetail.svelte";
-  import currentCollectionStore from "../../store/current_collection_store";
+  import current_collection_store from "../../store/current_collection_store";
 
   // selected collection uuid
   export let params;
 
-  const { current_collection } = currentCollectionStore;
+  const { current_collection } = current_collection_store;
 
   onMount(async () => {
     console.log("mount");

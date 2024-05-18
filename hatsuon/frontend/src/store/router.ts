@@ -1,29 +1,39 @@
 import { writable, type Writable } from "svelte/store";
-import auth_store from "./auth_store";
 
-type currentRouteType =
+export type currentRouteType =
   | "/"
   | "/login"
   | "/logout"
-  | "/collection/"
-  | "/phrase/";
+  | "/collection/:id"
+  | "/collection/:id/phrase/:p_id";
 
 export const currentRoute: Writable<currentRouteType> = writable("/");
 
-const { checkHasAuthenticated } = auth_store;
-const routes = ["/$", "/login$", "/logout$", "^/collection/", "^/phrase/"];
+const routesRegexp = [
+  "^/collection/.*/phrase/.*$",
+  "^/collection/.*$",
+  "/$",
+  "/login$",
+  "/logout$",
+];
 
-const checkRoute = (route: string) => {
-  const regexp = new RegExp(routes.join("|"));
-  const matched = route.match(regexp);
-  return matched;
-};
-currentRoute.subscribe(async (route) => {
-  console.log(route);
-  const matched = checkRoute(route);
-  if (matched == null) {
-    currentRoute.set("/");
+export const checkRoute = (route: string): currentRouteType => {
+  const result = routesRegexp.filter((re) => new RegExp(re).test(route));
+  if (result.length === 0) {
+    return "/";
   }
-  currentRoute.set(matched[0] as currentRouteType);
-  await checkHasAuthenticated();
-});
+  switch (result[0]) {
+    case "^/collection/.*/phrase/.*$":
+      return "/collection/:id/phrase/:p_id";
+    case "^/collection/.*$":
+      return "/collection/:id";
+    case "/$":
+      return "/";
+    case "/login$":
+      return "/login";
+    case "/logout$":
+      return "/logout";
+    default:
+      return "/";
+  }
+};
