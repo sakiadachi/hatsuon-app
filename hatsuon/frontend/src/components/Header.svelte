@@ -16,11 +16,11 @@
       case "/":
         shown_nav_item = [];
         break;
-      case "/collection/:id":
-        shown_nav_item = ["/collection"];
+      case "/collections/:id":
+        shown_nav_item = ["/collections"];
         break;
-      case "/collection/:id/phrase/:p_id":
-        shown_nav_item = ["/collection", "/phrase"];
+      case "/collections/:id/phrase/:p_id":
+        shown_nav_item = ["/collections", "/phrase"];
         break;
       case "/login":
         shown_nav_item = ["/login"];
@@ -41,24 +41,24 @@
         >
           <Link to="/">Home</Link>
         </li>
-        {#if shown_nav_item.includes("/collection")}
+        {#if shown_nav_item.includes("/collections")}
           <li
-            aria-current={$currentRoute === "/collection/:id"
+            aria-current={$currentRoute === "/collections/:id"
               ? "page"
               : undefined}
             class="aria-[current=page]:font-bold"
           >
-            <Link to="/collection/{$collection_id}">{$collection_title}</Link>
+            <Link to="/collections/{$collection_id}">{$collection_title}</Link>
           </li>
         {/if}
         {#if shown_nav_item.includes("/phrase")}
           <li
-            aria-current={$currentRoute === "/collection/:id/phrase/:p_id"
+            aria-current={$currentRoute === "/collections/:id/phrase/:p_id"
               ? "page"
               : undefined}
             class="aria-[current=page]:font-bold"
           >
-            <Link to="/collection/{$collection_id}/phrase/{$phrase_id}"
+            <Link to="/collections/{$collection_id}/phrase/{$phrase_id}"
               >{$phrase_title}</Link
             >
           </li>

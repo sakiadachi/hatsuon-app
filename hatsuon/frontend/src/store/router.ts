@@ -4,14 +4,14 @@ export type currentRouteType =
   | "/"
   | "/login"
   | "/logout"
-  | "/collection/:id"
-  | "/collection/:id/phrase/:p_id";
+  | "/collections/:id"
+  | "/collections/:id/phrase/:p_id";
 
 export const currentRoute: Writable<currentRouteType> = writable("/");
 
 const routesRegexp = [
-  "^/collection/.*/phrase/.*$",
-  "^/collection/.*$",
+  "^/collections/.*/phrase/.*$",
+  "^/collections/.*$",
   "/$",
   "/login$",
   "/logout$",
@@ -23,10 +23,10 @@ export const checkRoute = (route: string): currentRouteType => {
     return "/";
   }
   switch (result[0]) {
-    case "^/collection/.*/phrase/.*$":
-      return "/collection/:id/phrase/:p_id";
-    case "^/collection/.*$":
-      return "/collection/:id";
+    case "^/collections/.*/phrase/.*$":
+      return "/collections/:id/phrase/:p_id";
+    case "^/collections/.*$":
+      return "/collections/:id";
     case "/$":
       return "/";
     case "/login$":
