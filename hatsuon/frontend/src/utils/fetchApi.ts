@@ -1,5 +1,7 @@
 import getCookie from "./getCookie";
 
+const { VITE_API_BASE_URL } = import.meta.env;
+
 export async function fetchApi(
   path: string,
   options?: RequestInit,
@@ -15,7 +17,7 @@ export async function fetchApi(
       : {
           "X-CSRFToken": csrfToken,
         };
-  return await fetch(`http://127.0.0.1:8000/${path}`, {
+  return await fetch(`${VITE_API_BASE_URL}/${path}`, {
     ...options,
     credentials: "include",
     headers: {
