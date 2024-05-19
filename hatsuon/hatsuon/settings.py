@@ -15,6 +15,7 @@ import os
 from dotenv import (
     load_dotenv,
 )
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +30,7 @@ load_dotenv()
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "DEBUG" in os.environ
+DEBUG = DEBUG = "DEBUG" in os.environ
 
 ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
 
@@ -84,11 +85,9 @@ WSGI_APPLICATION = "hatsuon.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': dj_database_url.config()
 }
+
 
 
 # Password validation
@@ -126,7 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR.joinpath("staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 VITE_APP_DIR = BASE_DIR.joinpath("frontend")
 if DEBUG:
@@ -163,3 +162,5 @@ REST_FRAMEWORK = {
 LOGIN_REDIRECT_URL = "/login"
 
 CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_SECURE = True

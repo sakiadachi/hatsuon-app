@@ -9,7 +9,7 @@ register = template.Library()
 
 
 def load_json_from_dist(json_filename="manifest.json"):
-    manifest_file_path = Path(str(settings.VITE_APP_DIR), "dist", json_filename)
+    manifest_file_path = Path(str(settings.VITE_APP_DIR), "dist/.vite/", json_filename)
     if not manifest_file_path.exists():
         raise FileNotFoundError(
             f"Vite manifest file not found on path: {str(manifest_file_path)}"
@@ -35,7 +35,6 @@ def render_svelte():
     """
 
     manifest = load_json_from_dist()
-
     # I'm not sure what this does, but I'll leave it just in case
     # Modified from https://gist.github.com/lucianoratamero/7fc9737d24229ea9219f0987272896a2
     imports_files = ""
