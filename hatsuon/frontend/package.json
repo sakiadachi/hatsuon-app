@@ -10,17 +10,17 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-svelte": "^3.2.3"
+  },
+  "dependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
-    "prettier": "^3.2.5",
-    "prettier-plugin-svelte": "^3.2.3",
+    "dotenv": "^16.4.5",
+    "svelte-routing": "^2.13.0",
     "svelte": "^4.2.12",
     "tailwindcss": "^3.4.3",
     "vite": "^5.2.0"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "svelte-routing": "^2.13.0"
   }
 }
