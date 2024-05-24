@@ -177,3 +177,6 @@ cython_debug/
 
 # Generated static files
 staticfiles/
+
+# DB secret password
+hatsuon/db/*.txt
