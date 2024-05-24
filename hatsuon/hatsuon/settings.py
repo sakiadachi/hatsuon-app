@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from typing import Optional
 from dotenv import (
     load_dotenv,
 )
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -128,22 +130,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    "/var/www/static/",
-]
-
-
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
-#     }
-# }
 STATIC_FILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -162,8 +154,21 @@ REST_FRAMEWORK = {
     ],
 }
 
-LOGIN_REDIRECT_URL = "/login"
+# LOGIN_REDIRECT_URL = "/login"
+
+def maybe_split(value: Optional[str]) -> list[str]:
+    if value is None:
+        return []
+    return value.split(",")
+
+CSRF_TRUSTED_ORIGINS = (
+    "http://localhost:3000",
+    *maybe_split(os.environ.get("CSRF_TRUSTED_ORIGIN", None)),
+)
+
+
+SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_SECURE = True
 
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
