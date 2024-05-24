@@ -132,7 +132,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 VITE_APP_DIR = BASE_DIR.joinpath("frontend")
-if DEBUG:
+if DEBUG is True:
     STATICFILES_DIRS = [VITE_APP_DIR]
 else:
     STATICFILES_DIRS = [VITE_APP_DIR.joinpath("dist")]
