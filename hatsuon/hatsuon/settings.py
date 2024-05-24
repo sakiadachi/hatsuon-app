@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
-    "hatsuon_app.apps.HatsuonAppConfig",
+    "hatsuon_app",
 ]
 
 MIDDLEWARE = [
@@ -129,15 +129,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-VITE_APP_DIR = BASE_DIR.joinpath("frontend")
-if DEBUG is True:
-    STATICFILES_DIRS = [VITE_APP_DIR]
-else:
-    STATICFILES_DIRS = [VITE_APP_DIR.joinpath("dist")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-INTERNAL_IPS = ["127.0.0.1", "localhost"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    "/var/www/static/",
+]
+
 
 # STORAGES = {
 #     "staticfiles": {
