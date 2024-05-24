@@ -6,7 +6,6 @@
   import Logout from "./routes/logout/Logout.svelte";
   import PrivateRouteWrapper from "./components/PrivateRouteWrapper.svelte";
   import Header from "./components/Header.svelte";
-  import { type RouteParams } from "vue-router";
   import Phrase from "./routes/collections/phrase/Phrase.svelte";
 
   export let url = "";
