@@ -179,4 +179,4 @@ cython_debug/
 staticfiles/
 
 # DB secret password
-hatsuon/db/*.txt
+hatsuon/passwords/*.txt

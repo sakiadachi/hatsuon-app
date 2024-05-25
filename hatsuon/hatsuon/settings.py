@@ -17,6 +17,11 @@ from dotenv import (
     load_dotenv,
 )
 
+def maybe_split(value: Optional[str]) -> list[str]:
+    if value is None:
+        return []
+    return value.split(",")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,8 +37,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
-
+ALLOWED_HOSTS = [
+    *maybe_split(os.environ.get("ALLOWED_HOSTS", None)),
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -88,11 +94,11 @@ WSGI_APPLICATION = "hatsuon.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': os.getenv("DB_HOST"),
-        'PORT': '',
+        'NAME': os.getenv("POSTGRES_NAME"),
+        'USER': os.getenv("POSTGRES_USER"),
+        'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
+        'HOST': os.getenv("POSTGRES_HOST"),
+        'PORT': os.getenv("POSTGRES_PORT"),
     }
 }
 
@@ -156,10 +162,6 @@ REST_FRAMEWORK = {
 
 # LOGIN_REDIRECT_URL = "/login"
 
-def maybe_split(value: Optional[str]) -> list[str]:
-    if value is None:
-        return []
-    return value.split(",")
 
 CSRF_TRUSTED_ORIGINS = (
     "http://localhost:3000",
