@@ -52,13 +52,13 @@ services:
     environment:
       - SECRET_KEY=/run/secrets/django-secret-key
       - DEBUG=False
-      - CSRF_TRUSTED_ORIGINS=http://0.0.0.0:8000
+      - CSRF_TRUSTED_ORIGINS=http://0.0.0.0:8000,https://pronounciation-app.onrender.com
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
-      - ALLOWED_HOSTS=127.0.0.1,localhost,hatsuon_app,0.0.0.0
+      - ALLOWED_HOSTS=127.0.0.1,localhost,hatsuon_app,0.0.0.0,https://pronounciation-app.onrender.com
     depends_on:
       db:
         condition: service_healthy
