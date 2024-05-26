@@ -7,7 +7,7 @@ export default defineConfig({
   // base: process.env.PROD ? "/static/" : undefined,
   plugins: [svelte()],
   server: {
-    host: true,
+    host: "0.0.0.0",
     strictPort: true,
     port: 5173,
   },
