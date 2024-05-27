@@ -9,7 +9,7 @@
 # https://github.com/docker/awesome-compose
 networks:
   hatsuon-network:
-    driver: bridge
+    external: true
 
 services:
   frontend:
@@ -18,8 +18,7 @@ services:
     environment:
       NODE_ENV: production
     ports:
-      - 5173
-    tty: true
+      - 5173:5173
     networks:
       - hatsuon-network
 
@@ -29,7 +28,7 @@ services:
       dockerfile: Dockerfile
       context: ./nginx
     ports:
-      - 8080:80
+      - 80:80
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d/
       - ./:/var/www
@@ -48,13 +47,13 @@ services:
     environment:
       - SECRET_KEY=/run/secrets/django-secret-key
       - DEBUG=False
-      - CSRF_TRUSTED_ORIGINS=http://0.0.0.0:8000,https://pronounciation-app.onrender.com
+      - CSRF_TRUSTED_ORIGINS=http://0.0.0.0:8000,https://pronounciation-app-backend.onrender.com
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
-      - ALLOWED_HOSTS=127.0.0.1,localhost,hatsuon_app,0.0.0.0,https://pronounciation-app.onrender.com
+      - ALLOWED_HOSTS=127.0.0.1,localhost,hatsuon_app,0.0.0.0,https://pronounciation-app-backend.onrender.com
     depends_on:
       db:
         condition: service_healthy
