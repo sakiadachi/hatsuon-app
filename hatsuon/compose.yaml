@@ -12,30 +12,30 @@ networks:
     external: true
 
 services:
-  frontend:
-    build:
-      context: ./frontend
-    environment:
-      NODE_ENV: production
-    ports:
-      - 5173:5173
-    networks:
-      - hatsuon-network
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - 5173:5173
+  #   networks:
+  #     - hatsuon-network
 
-  nginx:
-    restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./nginx
-    ports:
-      - 80:80
-    volumes:
-      - ./nginx/conf:/etc/nginx/conf.d/
-      - ./:/var/www
-    depends_on:
-      - frontend
-    networks:
-      - hatsuon-network
+  # nginx:
+  #   restart: always
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./nginx
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+  #   #   - ./:/var/www
+  #   depends_on:
+  #     - frontend
+  #   networks:
+  #     - hatsuon-network
 
   backend:
     build: .
