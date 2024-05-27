@@ -1,7 +1,37 @@
-<script>
+<script lang="ts">
 	import Counter from './Counter.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import {fetchApi} from "$lib/utils/fetchApi"
+
+	const login = async (username: string, password: string) => {
+		const result = await fetchApi(
+			`api-auth/login/`,
+			{
+			method: "POST",
+			body: JSON.stringify({
+				username: "admin",
+				password: "hogePython",
+			}),
+			},
+			{ "Content-Type": "application/json" },
+		);
+		if (result.ok) {
+			const json = await result.json();
+			console.log(json)
+			return;
+		}
+		console.error("Login failed");
+	};
+
+	const collection = async() => {
+		const result = await fetchApi(`api/v1/collections/`);
+		if(result.ok) {
+			const json = await result.json();
+			console.log(json)
+		}
+	}
+
 </script>
 
 <svelte:head>
@@ -24,6 +54,10 @@
 	<h2>
 		try editing <strong>src/routes/+page.svelte</strong>
 	</h2>
+
+	<button on:click={()=> login()}>ボタン</button>
+
+	<button on:click={()=> collection()}>コレクション</button>
 
 	<Counter />
 </section>

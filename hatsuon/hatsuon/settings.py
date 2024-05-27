@@ -53,11 +53,13 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "dj_rest_auth",
     "hatsuon_app",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -162,15 +164,22 @@ REST_FRAMEWORK = {
 
 # LOGIN_REDIRECT_URL = "/login"
 
-
+# CSRF
 CSRF_TRUSTED_ORIGINS = (
-    "http://localhost:3000",
+    "http://localhost:5173",
     *maybe_split(os.environ.get("CSRF_TRUSTED_ORIGIN", None)),
 )
-
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = "None"
 
 SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = "None"
 
-CSRF_COOKIE_SECURE = True
 
-CSRF_COOKIE_HTTPONLY = True
+# CORS
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = (
+    "http://localhost:5173",
+    *maybe_split(os.environ.get("CORS_ALLOWED_ORIGINS", None)),
+)

@@ -7,20 +7,27 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
-networks:
-  hatsuon-network:
-    external: true
+# networks:
+#   hatsuon-network:
+#     external: true
 
 services:
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 5173:5173
-  #   networks:
-  #     - hatsuon-network
+  frontend:
+    build:
+      context: ./svelte-kit
+    environment:
+      NODE_ENV: production
+    ports:
+      - 5173:3000
+    volumes:
+      - ./src:/app/src
+      - ./static:/app/static
+      - ./vite.config.js:/app/vite.config.js
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./svelte.config.js:/app/svelte.config.js
+    # networks:
+    #   - hatsuon-network
+
 
   # nginx:
   #   restart: always
@@ -54,11 +61,12 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
       - ALLOWED_HOSTS=127.0.0.1,localhost,hatsuon_app,0.0.0.0,pronounciation-app-backend.onrender.com
+      - CORS_ALLOWED_ORIGINS=http://localhost,https://pronounciation-app.onrender.com,https://pronounciation-app-backend.onrender.coms
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - hatsuon-network
+    # networks:
+    #   - hatsuon-network
 
   db:
     image: postgres
