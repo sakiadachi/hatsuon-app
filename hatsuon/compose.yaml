@@ -7,6 +7,10 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
+networks:
+  hatsuon-network:
+    driver: bridge
+
 services:
   frontend:
     build:
@@ -14,10 +18,10 @@ services:
     environment:
       NODE_ENV: production
     ports:
-      - 80:80
+      - 5173
     tty: true
-    # networks:
-    #   - hatsuon-network
+    networks:
+      - hatsuon-network
 
   nginx:
     restart: always
@@ -27,26 +31,18 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./nginx:/etc/nginx/conf.d/
+      - ./nginx/conf:/etc/nginx/conf.d/
       - ./:/var/www
     depends_on:
       - frontend
-  
-  
-  # nginx:
-  #   image: nginx
-  #   volumes:
-  #     - ./templates:/etc/nginx/templates
-  #   ports:
-  #     - 80:80
-  #   environment:
-  #     - NGINX_HOST=localhost
-  #     - NGINX_PORT=80
+    networks:
+      - hatsuon-network
 
   backend:
     build: .
     ports:
       - 8000:8000
+    tty: true
     secrets:
       - django-secret-key
     environment:
@@ -62,6 +58,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - hatsuon-network
 
   db:
     image: postgres
@@ -84,9 +82,7 @@ services:
       timeout: 5s
       retries: 5
 
-# networks:
-#   default:
-#     name: hatsuon-network
+
 volumes:
   db-data:
 secrets:
