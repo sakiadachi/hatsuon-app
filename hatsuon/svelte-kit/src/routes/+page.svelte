@@ -1,93 +1,19 @@
 <script lang="ts">
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
-	import {fetchApi} from "$lib/utils/fetchApi"
+  import LinkBtn from "$lib/components/LinkBtn.svelte";
+  import type { PageData } from "./$types";
+  import CollectionList from "./CollectionList.svelte";
 
-	const login = async (username: string, password: string) => {
-		const result = await fetchApi(
-			`api-auth/login/`,
-			{
-			method: "POST",
-			body: JSON.stringify({
-				username: "admin",
-				password: "hogePython",
-			}),
-			},
-			{ "Content-Type": "application/json" },
-		);
-		if (result.ok) {
-			const json = await result.json();
-			console.log(json)
-			return;
-		}
-		console.error("Login failed");
-	};
-
-	const collection = async() => {
-		const result = await fetchApi(`api/v1/collections/`);
-		if(result.ok) {
-			const json = await result.json();
-			console.log(json)
-		}
-	}
-
+  export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+  <title>Home</title>
+  <meta name="description" content="Hatsu-Oh! demo app" />
 </svelte:head>
 
 <section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<button on:click={()=> login()}>ボタン</button>
-
-	<button on:click={()=> collection()}>コレクション</button>
-
-	<Counter />
+  <CollectionList collections={data.collections} />
+  <div class="flex justify-end mt-10">
+    <LinkBtn text="Add" href="/collection/create" />
+  </div>
 </section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
