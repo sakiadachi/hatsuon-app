@@ -2,6 +2,7 @@
   import CreateCollectionForm from "$lib/layout/CreateCollectionForm.svelte";
   import { collections } from "../../data";
   import { goto } from "$app/navigation";
+  import { fetchApi } from "$lib/utils/fetchApi";
 
   let title: string;
   $: title = "";
@@ -14,14 +15,20 @@
     title,
     description,
     phrases: [],
-    date: new Date().getMilliseconds(),
-    id: "new-collection-id",
   };
 
   const add_collection = async () => {
-    // TODO: replace with POST request
-    collections.push(new_collection);
-    await goto(`/collection/${new_collection.id}`);
+    const result = await fetchApi(
+      "api/v1/collections/",
+      {
+        method: "POST",
+        body: JSON.stringify(new_collection),
+      },
+      { "Content-Type": "application/json" },
+    );
+    if (result.ok) {
+      console.log("ok");
+    }
   };
 </script>
 

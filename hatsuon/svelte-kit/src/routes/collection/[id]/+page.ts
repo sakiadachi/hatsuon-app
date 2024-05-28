@@ -3,7 +3,6 @@ import { collections } from "../../data";
 import current_data from "$lib/store/current_correction";
 
 const { current_collection } = current_data;
-export const prerender = true;
 
 export function load({ params }) {
   const collection: Collection | undefined = collections.find(

@@ -6,6 +6,10 @@ import { collections } from "./data";
 export const prerender = true;
 
 export const load: PageLoad = () => {
+  // Can't make request using CSRF token because its stored in browser cookie!
+  // const result = await fetchApi("api/v1/collections/");
+  // const collections:Collection[] = await result.json();
+
   return {
     collections: collections.map((c) => ({
       id: c.id,

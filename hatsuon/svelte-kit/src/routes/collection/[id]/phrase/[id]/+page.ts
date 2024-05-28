@@ -3,7 +3,6 @@ import { phrases } from "../../../../data";
 import current_data from "$lib/store/current_correction";
 
 const { current_phrase } = current_data;
-export const prerender = true;
 
 export type AudioSrc = {
   src: string;

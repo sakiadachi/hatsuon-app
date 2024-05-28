@@ -1,11 +1,11 @@
 <script lang="ts">
-  export let collections: Pick<Collection, "title" | "id">[];
+  export let collections: Collection[];
 </script>
 
 <ul class="w-full">
   {#each collections as c}
     <li class="hover:bg-slate-200 pl-4 py-1">
-      <a href="/collection/{c.id}">{c.title}</a>
+      <a href="/collection/{c.uuid}">{c.title}</a>
     </li>
   {/each}
 </ul>
