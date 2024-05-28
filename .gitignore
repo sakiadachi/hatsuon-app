@@ -14,7 +14,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+lib/*
+!svelte-kit/src/lib/*
 lib64/
 parts/
 sdist/
