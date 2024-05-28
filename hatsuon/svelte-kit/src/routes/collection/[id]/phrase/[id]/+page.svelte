@@ -83,7 +83,7 @@
   const onInput = (
     e: Event & {
       currentTarget: EventTarget & HTMLInputElement;
-    }
+    },
   ) => {
     if (e.currentTarget?.files?.[0] == null) {
       return;

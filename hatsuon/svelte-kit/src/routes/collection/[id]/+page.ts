@@ -7,7 +7,7 @@ export const prerender = true;
 
 export function load({ params }) {
   const collection: Collection | undefined = collections.find(
-    (c) => c.id === params.id
+    (c) => c.id === params.id,
   );
   if (collection == null) {
     current_collection.set(undefined);

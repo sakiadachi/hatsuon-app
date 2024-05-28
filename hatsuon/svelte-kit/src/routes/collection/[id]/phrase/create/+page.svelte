@@ -24,7 +24,7 @@
   const add_phrase = async () => {
     // TODO: replace with POST request
     const collection_index = collections.findIndex(
-      (c) => c.id === $collection_id
+      (c) => c.id === $collection_id,
     );
     if (collection_index > 0) {
       const new_collection = {

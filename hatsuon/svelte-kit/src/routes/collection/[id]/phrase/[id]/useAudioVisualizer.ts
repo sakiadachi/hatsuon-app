@@ -9,7 +9,7 @@ const _draw = (
   data: BarData[],
   barWidth: number,
   gap: number,
-  height: number
+  height: number,
 ) => {
   if (!canvasContext) return;
   const halfOfHeight = height / 2;
@@ -45,7 +45,7 @@ const _visualize = (
   /**
    * Gap between bars
    */
-  gap: number = 1
+  gap: number = 1,
 ) => {
   const float32Array = audioBuffer.getChannelData(0);
   if (!canvasContext) {
@@ -104,7 +104,7 @@ const drawTimeBar = (
   /**
    * Duration of an audio
    */
-  duration: number
+  duration: number,
 ) => {
   if (!canvasContext) return;
   console.log(duration);
@@ -123,7 +123,7 @@ const drawTimeBar = (
 
 export function visualizeAudio(
   canvasEl: HTMLCanvasElement,
-  audioSrc: AudioSrc
+  audioSrc: AudioSrc,
 ): Promise<{ audioDuration: number }> {
   // @ts-ignore-next-line
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -149,6 +149,6 @@ export function visualizeAudio(
       })
       .catch((error) => {
         reject(error);
-      })
+      }),
   );
 }

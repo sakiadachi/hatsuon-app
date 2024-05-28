@@ -15,7 +15,7 @@
       console.debug("canvas was undefined");
     } else {
       visualizeAudio(canvas, audioSrc).then(
-        (r) => (audioDuration = r.audioDuration)
+        (r) => (audioDuration = r.audioDuration),
       );
     }
   }
@@ -31,7 +31,7 @@
   const moveCurrentTimeIndicator = (
     e: Event & {
       currentTarget: EventTarget & HTMLAudioElement;
-    }
+    },
   ) => {
     if (audioDuration === undefined) {
       throw new Error("Expected audioDuration");

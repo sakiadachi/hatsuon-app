@@ -3,15 +3,15 @@ export default {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
     extend: {
-      aria:{
-        page: 'current="page"'
+      aria: {
+        page: 'current="page"',
       },
-      colors:{
+      colors: {
         blue: {
-          500: '#2e70ff'
-        }
-      }
+          500: "#2e70ff",
+        },
+      },
     },
   },
   plugins: [],
-}
+};
