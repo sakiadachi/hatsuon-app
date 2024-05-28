@@ -12,7 +12,7 @@ const collection_title: Readable<string> = derived(
 );
 const collection_id: Readable<string> = derived(
   current_collection,
-  ($current_collection) => $current_collection?.id || "",
+  ($current_collection) => $current_collection?.uuid || "",
 );
 
 /**
@@ -25,7 +25,7 @@ const phrase_title: Readable<string> = derived(
 );
 const phrase_id: Readable<string> = derived(
   current_phrase,
-  ($current_phrase) => $current_phrase?.id || "",
+  ($current_phrase) => $current_phrase?.uuid || "",
 );
 
 export default {

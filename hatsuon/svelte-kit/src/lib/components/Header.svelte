@@ -5,7 +5,7 @@
     type NavItem,
     type RouteName,
   } from "$lib/store/route/data";
-  import current_data from "$lib/store/current_correction";
+  import current_data from "$lib/store/current_collection";
 
   // Selected Collection
   const { collection_id, collection_title, phrase_id, phrase_title } =

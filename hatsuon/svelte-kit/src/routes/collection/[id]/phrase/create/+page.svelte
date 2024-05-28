@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
   import CreateCollectionForm from "$lib/layout/CreateCollectionForm.svelte";
   import { collections, phrases } from "../../../../data";
-  import current_data from "$lib/store/current_correction";
+  import current_data from "$lib/store/current_collection";
 
   const { collection_id } = current_data;
   let title: string;

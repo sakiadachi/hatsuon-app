@@ -1,7 +1,5 @@
 <script lang="ts">
   import CreateCollectionForm from "$lib/layout/CreateCollectionForm.svelte";
-  import { collections } from "../../data";
-  import { goto } from "$app/navigation";
   import { fetchApi } from "$lib/utils/fetchApi";
 
   let title: string;

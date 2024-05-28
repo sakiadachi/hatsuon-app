@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { phrases } from "../../../../data";
-import current_data from "$lib/store/current_correction";
+import current_data from "$lib/store/current_collection";
 
 const { current_phrase } = current_data;
 
