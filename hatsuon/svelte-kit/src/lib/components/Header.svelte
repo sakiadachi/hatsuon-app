@@ -6,10 +6,13 @@
     type RouteName,
   } from "$lib/store/route/data";
   import current_data from "$lib/store/current_collection";
+  import auth_store from "$lib/store/auth_store";
 
   // Selected Collection
   const { collection_id, collection_title, phrase_id, phrase_title } =
     current_data;
+
+  const { isLoggedIn } = auth_store;
 
   let route_id: string | null;
   $: route_id = $page.route.id;
@@ -30,34 +33,42 @@
     } else {
       current_route = nav_item;
       switch (nav_item.name) {
-        case "Home":
+        case "Login":
           shown_nav_item = [];
           break;
+        case "Logout":
+          shown_nav_item = [];
+          break;
+        case "Home":
+          shown_nav_item = ["Home"];
+          break;
         case "CollectionDetail":
-          shown_nav_item = ["CollectionDetail"];
+          shown_nav_item = ["Home", "CollectionDetail"];
           break;
         case "CollectionCreate":
-          shown_nav_item = ["CollectionCreate"];
+          shown_nav_item = ["Home", "CollectionCreate"];
           break;
         case "PhraseCreate":
-          shown_nav_item = ["CollectionDetail", "PhraseCreate"];
+          shown_nav_item = ["Home", "CollectionDetail", "PhraseCreate"];
           break;
         case "PhraseDetail":
-          shown_nav_item = ["CollectionDetail", "PhraseDetail"];
+          shown_nav_item = ["Home", "CollectionDetail", "PhraseDetail"];
       }
     }
   }
 </script>
 
-<header class="flex w-full p-4">
-  <nav class="grow">
+<header class="flex w-full p-4 max-w-screen-lg m-auto">
+  <nav class="grow flex justify-between">
     <ul class="breadcrumb flex">
-      <li
-        aria-current={current_route.name === "Home" ? "page" : undefined}
-        class="aria-[current=page]:font-bold"
-      >
-        <a href="/">Home</a>
-      </li>
+      {#if shown_nav_item.includes("Home")}
+        <li
+          aria-current={current_route.name === "Home" ? "page" : undefined}
+          class="aria-[current=page]:font-bold"
+        >
+          <a href="/">Home</a>
+        </li>
+      {/if}
       {#if shown_nav_item.includes("CollectionDetail")}
         <li
           aria-current={current_route.name === "CollectionDetail"
@@ -99,6 +110,24 @@
           <a href="/collection/{$collection_id}/phrase/{$phrase_id}"
             >{$phrase_title}</a
           >
+        </li>
+      {/if}
+    </ul>
+
+    <ul class="breadcrumb flex">
+      {#if $isLoggedIn}
+        <li
+          aria-current={current_route.name === "Logout" ? "page" : undefined}
+          class="aria-[current=page]:font-bold"
+        >
+          <a href="/logout">Logout</a>
+        </li>
+      {:else}
+        <li
+          aria-current={current_route.name === "Login" ? "page" : undefined}
+          class="aria-[current=page]:font-bold"
+        >
+          <a href="/login">Login</a>
         </li>
       {/if}
     </ul>
