@@ -1,12 +1,15 @@
 <script lang="ts">
+  import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
   import type { PageData } from "./$types";
   import { onMount } from "svelte";
   import type { AudioSrc } from "./+page";
   import AudioVisualizer from "./AudioVisualizer.svelte";
   import Takes from "./Takes.svelte";
+  import { fetchApi } from "$lib/utils/fetchApi";
+  import current_collection_store from "$lib/store/current_collection";
 
-  export let data: PageData;
-  const { phrase } = data;
+  const { current_phrase } = current_collection_store;
 
   /**
    * Original phrase source from Input
@@ -22,7 +25,7 @@
    */
   let is_enabled_rec_start_btn = true;
 
-  onMount(() => {
+  const setRecorder = async () => {
     if (!navigator.mediaDevices) {
       alert("getUserMedia not supported on your browser");
       return;
@@ -66,6 +69,17 @@
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  onMount(async () => {
+    const result = await fetchApi(`api/v1/phrases/${$page.params.id}/`);
+    if (result.ok) {
+      const json = await result.json();
+      current_phrase.set(json);
+    } else {
+      goto("/", { replaceState: true });
+    }
+    setRecorder();
   });
 
   const startRecording = async () => {
@@ -96,48 +110,52 @@
 </script>
 
 <svelte:head>
-  <title>{phrase.title}</title>
+  <title>Phrase</title>
   <meta name="description" content="Practice your phrase" />
 </svelte:head>
 
 <div class="flex flex-col place-content-between">
-  <section class="">
-    <h1 class="text-left">{phrase.title}</h1>
-    <p class="mb-4">{phrase.description}</p>
-  </section>
-  <div class="flex flex-col">
-    <input type="file" accept="audio/mp3,audio/wav" on:input={onInput} />
-    {#if phraseSrc}
-      <AudioVisualizer audioSrc={phraseSrc} />
-    {/if}
-    <div class="bg-slate-100 min-h-80 mt-8">
-      <h2 class="text-xl mb-4">Your Takes</h2>
-      {#if recordings.length > 0}
-        <Takes takes={recordings} />
-      {:else}
-        <p class="text-center">You don't have recordings yet!</p>
+  {#if $current_phrase}
+    <section class="">
+      <h1 class="text-left">{$current_phrase.title}</h1>
+      <p class="mb-4">{$current_phrase.description}</p>
+    </section>
+    <div class="flex flex-col">
+      <input type="file" accept="audio/mp3,audio/wav" on:input={onInput} />
+      {#if phraseSrc}
+        <AudioVisualizer audioSrc={phraseSrc} />
       {/if}
-    </div>
-
-    <div class="flex justify-center gap-4 align-center slef-end">
-      <button
-        title="{is_enabled_rec_start_btn ? 'Start' : 'Stop'} Recording"
-        class="flex justify-center align-center w-14 h-14 rounded-full border-2 border-red-600 hover:opacity-60"
-        on:click={(e) => {
-          if (is_enabled_rec_start_btn) {
-            startRecording();
-          } else {
-            stopRecording();
-          }
-        }}
-      >
-        {#if is_enabled_rec_start_btn}
-          <span class="flex bg-red-600 rounded-full w-10 h-10 self-center"
-          ></span>
+      <div class="bg-slate-100 min-h-80 mt-8">
+        <h2 class="text-xl mb-4">Your Takes</h2>
+        {#if recordings.length > 0}
+          <Takes takes={recordings} />
         {:else}
-          <span class="flex w-6 h-6 bg-red-600 rounded-sm self-center"></span>
+          <p class="text-center">You don't have recordings yet!</p>
         {/if}
-      </button>
+      </div>
+
+      <div class="flex justify-center gap-4 align-center slef-end">
+        <button
+          title="{is_enabled_rec_start_btn ? 'Start' : 'Stop'} Recording"
+          class="flex justify-center align-center w-14 h-14 rounded-full border-2 border-red-600 hover:opacity-60"
+          on:click={(e) => {
+            if (is_enabled_rec_start_btn) {
+              startRecording();
+            } else {
+              stopRecording();
+            }
+          }}
+        >
+          {#if is_enabled_rec_start_btn}
+            <span class="flex bg-red-600 rounded-full w-10 h-10 self-center"
+            ></span>
+          {:else}
+            <span class="flex w-6 h-6 bg-red-600 rounded-sm self-center"></span>
+          {/if}
+        </button>
+      </div>
     </div>
-  </div>
+  {:else}
+    <p>No such phrase!</p>
+  {/if}
 </div>
