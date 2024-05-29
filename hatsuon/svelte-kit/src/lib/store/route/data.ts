@@ -4,7 +4,8 @@ export type RouteName =
   | "CollectionCreate"
   | "PhraseCreate"
   | "PhraseDetail"
-  | "Login";
+  | "Login"
+  | "Logout";
 
 export type NavItem = {
   name: RouteName;
@@ -35,5 +36,9 @@ export const nav_items: NavItem[] = [
   {
     name: "Login",
     route_id: "/login",
+  },
+  {
+    name: "Logout",
+    route_id: "/logout",
   },
 ];
