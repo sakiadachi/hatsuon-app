@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { beforeUpdate } from "svelte";
+  import { onMount } from "svelte";
   import auth_store from "$lib/store/auth_store";
 
   const { logout } = auth_store;
@@ -7,7 +7,7 @@
   let isLoading: boolean = false;
   let logoutSuccess: boolean = false;
 
-  beforeUpdate(async () => {
+  onMount(async () => {
     isLoading = true;
     logoutSuccess = await logout();
     isLoading = false;
