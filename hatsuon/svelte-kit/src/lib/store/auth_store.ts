@@ -35,17 +35,16 @@ const login = async (username: string, password: string) => {
 /**
  * GET request to check if user has authenticated
  */
-const checkHasAuthenticated = () =>
-  fetchApi("api/v1/")
-    .then(() => {
-      isLoggedIn.set(true);
-    })
-    .catch((err) => {
-      // not logged in
-      console.error(err);
-      isLoggedIn.set(false);
-      goto("/login", { replaceState: true });
-    });
+const checkHasAuthenticated = async () => {
+  const result = await fetchApi("api/v1/");
+  if (result.ok) {
+    isLoggedIn.set(true);
+  } else {
+    isLoggedIn.set(false);
+    goto("/login", { replaceState: true });
+  }
+};
+
 /**
  * Log out
  */
