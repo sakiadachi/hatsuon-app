@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
   import CreateCollectionForm from "$lib/layout/CreateCollectionForm.svelte";
   import { fetchApi } from "$lib/utils/fetchApi";
 
@@ -25,7 +26,8 @@
       { "Content-Type": "application/json" },
     );
     if (result.ok) {
-      console.log("ok");
+      const json = (await result.json()) as Collection;
+      goto(`/collection/${json.uuid}`);
     }
   };
 </script>
