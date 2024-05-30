@@ -22,10 +22,14 @@ type Phrase = {
    */
   recording?: string;
   takes?: string[];
-  created_date: number;
-  created_by: string;
-  id: string;
-  uuid: string;
+  /**
+   * collection's id
+   */
+  collection?: number;
+  created_date?: number;
+  created_by?: string;
+  id?: string;
+  uuid?: string;
 };
 
 /**

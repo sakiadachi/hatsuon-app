@@ -30,8 +30,19 @@ const add_collection = async (collection: Collection) => {
   }
 };
 
+const add_phrase = async (phrase: Phrase) =>
+  fetchApi(
+    "api/v1/phrases/",
+    {
+      method: "POST",
+      body: JSON.stringify(phrase),
+    },
+    { "Content-Type": "application/json" },
+  );
+
 export default {
   collections,
   fetch_collection,
   add_collection,
+  add_phrase,
 };

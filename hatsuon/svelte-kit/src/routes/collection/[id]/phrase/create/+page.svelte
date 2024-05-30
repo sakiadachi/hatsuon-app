@@ -1,10 +1,11 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import CreateCollectionForm from "$lib/layout/CreateCollectionForm.svelte";
-  import { collections, phrases } from "../../../../data";
   import current_data from "$lib/store/current_collection";
+  import collection_store from "$lib/store/collection_store";
 
-  const { collection_id } = current_data;
+  const { current_collection, collection_id } = current_data;
+  const { add_phrase } = collection_store;
   let title: string;
   $: title = "";
 
@@ -15,33 +16,23 @@
   $: new_phrase = {
     title,
     description,
-    recording: "",
-    takes: [],
-    date: new Date().getMilliseconds(),
-    id: "new-phrase-id",
+    collection: $current_collection?.id || undefined,
   };
 
-  const add_phrase = async () => {
-    // TODO: replace with POST request
-    const collection_index = collections.findIndex(
-      (c) => c.id === $collection_id,
-    );
-    if (collection_index > 0) {
-      const new_collection = {
-        ...collections[collection_index],
-        phrases: [...collections[collection_index].phrases, new_phrase.id],
-      };
-      collections[collection_index] = new_collection;
+  const create_phrase = async () => {
+    const result = await add_phrase(new_phrase);
+    if (result.ok) {
+      const json = (await result.json()) as Phrase;
+      goto(`/collection/${$collection_id}/phrase/${json.uuid}}`);
     }
-    phrases.push(new_phrase);
-    await goto(`/collection/${$collection_id}/phrase/${new_phrase.id}`);
+    // TODO: Add error messages
   };
 </script>
 
 <CreateCollectionForm
   pageTitle="Add Phrase"
   on:click={(e) => {
-    add_phrase();
+    create_phrase();
   }}
 >
   <label slot="form-row-1--label" for="phrase-title" class="">Title:</label>
