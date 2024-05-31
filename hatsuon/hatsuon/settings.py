@@ -162,7 +162,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-# LOGIN_REDIRECT_URL = "/login"
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = (
@@ -174,6 +173,8 @@ CSRF_COOKIE_HTTPONLY = False
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_SAMESITE = "None"
 
+
+# SESSION COOKIE
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = "None"
 
@@ -184,3 +185,8 @@ CORS_ALLOWED_ORIGINS = (
     "http://localhost:5173",
     *maybe_split(os.environ.get("CORS_ALLOWED_ORIGINS", None)),
 )
+
+
+# MEDIA
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
