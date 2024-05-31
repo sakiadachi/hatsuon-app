@@ -1,18 +1,22 @@
 <script lang="ts">
   import Header from "$lib/components/Header.svelte";
   import LoadingIndicator from "$lib/components/LoadingIndicator.svelte";
-  import { beforeUpdate, onMount } from "svelte";
+  import { onMount } from "svelte";
   import auth_store from "$lib/store/auth_store";
   import "../app.css";
   import { page, navigating } from "$app/stores";
   import { browser } from "$app/environment";
+  import { goto } from "$app/navigation";
 
   const { checkHasAuthenticated } = auth_store;
 
   let isLoading = false;
   const checkAuth = async () => {
     isLoading = true;
-    await checkHasAuthenticated();
+    await checkHasAuthenticated().catch(() => {
+      goto("/login", { replaceState: true });
+      isLoading = false;
+    });
     isLoading = false;
   };
 
