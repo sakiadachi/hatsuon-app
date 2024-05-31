@@ -25,7 +25,7 @@ type Phrase = {
   /**
    * collection's id
    */
-  collection?: number;
+  collection?: string;
   created_date?: number;
   created_by?: string;
   id?: string;
