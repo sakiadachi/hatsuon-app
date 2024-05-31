@@ -25,6 +25,13 @@
    */
   let is_enabled_rec_start_btn = true;
 
+  $: if ($current_phrase?.recording) {
+    phraseSrc = {
+      src: $current_phrase.recording,
+      name: $current_phrase.title,
+    };
+  }
+
   const setRecorder = async () => {
     if (!navigator.mediaDevices) {
       alert("getUserMedia not supported on your browser");
@@ -121,9 +128,10 @@
       <p class="mb-4">{$current_phrase.description}</p>
     </section>
     <div class="flex flex-col">
-      <input type="file" accept="audio/mp3,audio/wav" on:input={onInput} />
       {#if phraseSrc}
         <AudioVisualizer audioSrc={phraseSrc} />
+      {:else}
+        <input type="file" accept="audio/mp3,audio/wav" on:input={onInput} />
       {/if}
       <div class="bg-slate-100 min-h-80 mt-8">
         <h2 class="text-xl mb-4">Your Takes</h2>
