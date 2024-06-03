@@ -17,12 +17,13 @@ Including another URLconf
 
 from django.urls import include, path
 from django.contrib import admin
-from hatsuon_app.urls import frontend_urlpatterns, urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
+from hatsuon_app.urls import urlpatterns
 
-print(urlpatterns)
+
 urlpatterns = [
     path("api/v1/", include(urlpatterns)),
     path("api-auth/", include("dj_rest_auth.urls")),
     path("admin/", admin.site.urls),
-    path("", include(frontend_urlpatterns)),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,9 +12,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from typing import Optional
 from dotenv import (
     load_dotenv,
 )
+
+def maybe_split(value: Optional[str]) -> list[str]:
+    if value is None:
+        return []
+    return value.split(",")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,8 +37,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
-
+ALLOWED_HOSTS = [
+    *maybe_split(os.environ.get("ALLOWED_HOSTS", None)),
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,12 +52,14 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
-    "hatsuon_app.apps.HatsuonAppConfig",
+    "hatsuon_app",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -86,11 +96,11 @@ WSGI_APPLICATION = "hatsuon.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': os.getenv("DB_HOST"),
-        'PORT': '',
+        'NAME': os.getenv("POSTGRES_NAME"),
+        'USER': os.getenv("POSTGRES_USER"),
+        'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
+        'HOST': os.getenv("POSTGRES_HOST"),
+        'PORT': os.getenv("POSTGRES_PORT"),
     }
 }
 
@@ -128,23 +138,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "static/"
 
-VITE_APP_DIR = BASE_DIR.joinpath("frontend")
-if DEBUG is True:
-    STATICFILES_DIRS = [VITE_APP_DIR]
-else:
-    STATICFILES_DIRS = [VITE_APP_DIR.joinpath("dist")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-INTERNAL_IPS = ["127.0.0.1", "localhost"]
-
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
-#     }
-# }
 STATIC_FILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -163,8 +162,31 @@ REST_FRAMEWORK = {
     ],
 }
 
-LOGIN_REDIRECT_URL = "/login"
 
+# CSRF
+CSRF_TRUSTED_ORIGINS = (
+    "http://localhost:5173",
+    *maybe_split(os.environ.get("CSRF_TRUSTED_ORIGIN", None)),
+)
 CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_USE_SESSIONS = False
+CSRF_COOKIE_SAMESITE = "None"
 
+
+# SESSION COOKIE
 SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = "None"
+
+
+# CORS
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = (
+    "http://localhost:5173",
+    *maybe_split(os.environ.get("CORS_ALLOWED_ORIGINS", None)),
+)
+
+
+# MEDIA
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"

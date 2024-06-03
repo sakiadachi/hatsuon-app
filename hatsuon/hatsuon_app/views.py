@@ -24,29 +24,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
 
 
-class CollectionPhraseListCreateAPIView(generics.ListCreateAPIView):
-    """Collection.phrases"""
-
-    serializer_class = PhraseSerializer
-
-    def get_queryset(self):
-        return Phrase.objects.filter(collection__pk=self.kwargs["collection_pk"])
-
-    def perform_create(self, serializer):
-        super().perform_create(serializer)
-        collection = Collection.objects.get(pk=self.kwargs["collection_pk"])
-        collection.phrases.add(serializer.instance)
-
-
-class CollectionPhraseRetrieveUpdateDestroyAPIView(
-    generics.RetrieveUpdateDestroyAPIView
-):
-    serializer_class = PhraseSerializer
-
-    def get_queryset(self):
-        return Phrase.objects.filter(collection__pk=self.kwargs["collection_pk"])
-
-
 class CollectionViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list`, `create`, `retrieve`,
