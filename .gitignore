@@ -181,3 +181,6 @@ staticfiles/
 
 # DB secret password
 hatsuon/passwords/*.txt
+
+# Django media directory
+hatsuon/media
