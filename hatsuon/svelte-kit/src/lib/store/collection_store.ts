@@ -2,7 +2,7 @@ import { fetchApi } from "$lib/utils/fetchApi";
 import { writable, type Writable } from "svelte/store";
 
 /**
- * Current Collection
+ * Current Collection list
  */
 const collections: Writable<Collection[]> = writable([]);
 
