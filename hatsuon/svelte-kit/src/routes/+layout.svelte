@@ -47,6 +47,10 @@
   </main>
 
   <footer class="flex flex-col justify-center items-center p-4">
-    This is a footer.
+    <p>
+      <a href="mailto:hello@sakiadachi.com" class="text-black"
+        >Any comments? Send an email to the maintainer.</a
+      >
+    </p>
   </footer>
 </div>
