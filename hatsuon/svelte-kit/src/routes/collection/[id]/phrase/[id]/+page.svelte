@@ -9,7 +9,7 @@
   import { fetchApi } from "$lib/utils/fetchApi";
   import current_collection_store from "$lib/store/current_collection";
 
-  const { current_phrase } = current_collection_store;
+  const { current_phrase, current_collection } = current_collection_store;
 
   /**
    * Original phrase source from Input
@@ -78,7 +78,24 @@
       });
   };
 
-  onMount(async () => {
+  const getCurrentCollection = async()=> {
+    const {pathname} = $page.url
+    const matched = pathname.match("(?<=\/collection\/)([a-zA-Z0-9-]+)(?=\/phrase\/.*$)")
+    if(matched.length>0) {
+       const result = await fetchApi(`api/v1/collections/${matched[0]}/`);
+      if (result.ok) {
+        const json = await result.json();
+        current_collection.set(json);
+      } else {
+        goto("/", { replaceState: true });
+      }
+    }
+  }
+
+  onMount(async () => { 
+    if(!$current_collection){
+      await getCurrentCollection()
+    }
     const result = await fetchApi(`api/v1/phrases/${$page.params.id}/`);
     if (result.ok) {
       const json = await result.json();
