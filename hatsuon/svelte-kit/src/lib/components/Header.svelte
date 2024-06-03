@@ -120,7 +120,7 @@
           aria-current={current_route.name === "Logout" ? "page" : undefined}
           class="aria-[current=page]:font-bold"
         >
-          <a href="/logout">Logout</a>
+          <a href="/logout">Log out</a>
         </li>
       {:else}
         <li
