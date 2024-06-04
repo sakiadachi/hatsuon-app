@@ -180,7 +180,7 @@ cython_debug/
 staticfiles/
 
 # DB secret password
-hatsuon/passwords/*.txt
+/passwords/*.txt
 
 # Django media directory
-hatsuon/media
+/media
