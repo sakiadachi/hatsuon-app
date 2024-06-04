@@ -11,6 +11,9 @@ poetry install
 
 # Run local server
 python manage.py runserver
+
+# Deactivating vitual env
+deactivate
 ```
 
 ## Start Frontend local server

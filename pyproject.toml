@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pronounciation-app-backend"
+name = "hatsuon-app"
 version = "0.1.0"
 description = ""
 authors = ["sakiadachi <sakiadachi.88@gmail.com>"]
@@ -33,8 +33,6 @@ Pygments = "2.17.2"
 PySocks = "1.7.1"
 pytest = "8.1.1"
 python-dotenv = "1.0.1"
-requests = "2.31.0"
-requests-toolbelt = "1.0.0"
 rich = "13.7.1"
 setuptools = "69.5.1"
 sqlparse = "0.5.0"
