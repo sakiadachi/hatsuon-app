@@ -1,6 +1,6 @@
 # pronounciation-app-backend
 
-## Start backend server (Local)
+## Start Backend local server
 
 ```
 # Activating virtual env
@@ -13,7 +13,7 @@ poetry install
 python manage.py runserver
 ```
 
-## Start backend server (Local)
+## Start Frontend local server
 
 ```
 cd svelte-kit
