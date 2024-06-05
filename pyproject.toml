@@ -6,7 +6,7 @@ authors = ["sakiadachi <sakiadachi.88@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 asgiref = "3.8.1"
 certifi = "2024.2.2"
 charset-normalizer = "3.3.2"
