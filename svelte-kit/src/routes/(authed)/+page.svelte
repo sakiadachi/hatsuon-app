@@ -4,9 +4,6 @@
   import CollectionList from "./CollectionList.svelte";
   import collection_store from "$lib/store/collection_store";
 
-  // Can't use server side because of using CSRF token stored in browser!
-  // export let data: PageData;
-
   const { collections, fetch_collection } = collection_store;
 
   onMount(() => {

@@ -22,7 +22,12 @@
   };
 </script>
 
-<h1 class="text-center mb-8">Login</h1>
+<svelte:head>
+  <title>Hatsu-Oh! App Login</title>
+  <meta name="description" content="Hatsu-Oh! app login page" />
+</svelte:head>
+
+<h1 class="text-center mt-24 mb-8">Login</h1>
 <form on:submit={handleSubmit} class="flex flex-col items-center gap-4">
   <label class="flex justify-between w-full max-w-96">
     <span class="mr-4">User Name:</span>

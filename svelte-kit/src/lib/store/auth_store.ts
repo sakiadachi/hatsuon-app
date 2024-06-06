@@ -33,19 +33,6 @@ const login = async (username: string, password: string) => {
 };
 
 /**
- * GET request to check if user has authenticated
- */
-const checkHasAuthenticated = async () => {
-  const result = await fetchApi("api/v1/");
-  if (result.ok) {
-    isLoggedIn.set(true);
-  } else {
-    isLoggedIn.set(false);
-    goto("/login", { replaceState: true });
-  }
-};
-
-/**
  * Log out
  */
 const logout = async () => {
@@ -66,6 +53,5 @@ const logout = async () => {
 export default {
   isLoggedIn,
   login,
-  checkHasAuthenticated,
   logout,
 };

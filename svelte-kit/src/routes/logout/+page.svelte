@@ -14,7 +14,12 @@
   });
 </script>
 
-<div>
+<svelte:head>
+  <title>Hatsu-Oh! App Logout</title>
+  <meta name="description" content="Hatsu-Oh! app logout page" />
+</svelte:head>
+
+<div class="flex flex-col items-center gap-4 mt-24">
   {#if isLoading}
     <p>Loading...</p>
   {/if}
