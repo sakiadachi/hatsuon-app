@@ -1,20 +1,13 @@
 <script lang="ts">
-  import Header from "$lib/components/Header.svelte";
+  import auth_store from "$lib/store/auth_store";
+  import { onMount } from "svelte";
+
+  export let data;
+
+  const { isLoggedIn: loginState } = data;
+  const { isLoggedIn } = auth_store;
+  // set login state fetched in +layout.server.ts to auth_store (client side)
+  isLoggedIn.set(JSON.stringify(loginState));
 </script>
 
-<div class="app flex flex-col min-h-screen">
-  <Header />
-  <main
-    class="flex-1 flex flex-col p-4 w-full max-w-screen-sm my-0 mx-auto box-border"
-  >
-    <slot />
-  </main>
-
-  <footer class="flex flex-col justify-center items-center p-4">
-    <p>
-      <a href="mailto:hello@sakiadachi.com" class="text-black"
-        >Any comments? Send an email to the maintainer.</a
-      >
-    </p>
-  </footer>
-</div>
+<slot />

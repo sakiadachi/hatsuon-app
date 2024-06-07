@@ -15,23 +15,23 @@ export type NavItem = {
 export const nav_items: NavItem[] = [
   {
     name: "Home",
-    route_id: "/",
+    route_id: "/(authed)",
   },
   {
     name: "CollectionDetail",
-    route_id: "/collection/[id]",
+    route_id: "/(authed)/collection/[id]",
   },
   {
     name: "CollectionCreate",
-    route_id: "/collection/create",
+    route_id: "/(authed)/collection/create",
   },
   {
     name: "PhraseCreate",
-    route_id: "/collection/[id]/phrase/create",
+    route_id: "/(authed)/collection/[id]/phrase/create",
   },
   {
     name: "PhraseDetail",
-    route_id: "/collection/[id]/phrase/[id]",
+    route_id: "/(authed)/collection/[id]/phrase/[id]",
   },
   {
     name: "Login",
