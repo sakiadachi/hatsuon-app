@@ -1,14 +1,9 @@
 <script lang="ts">
   import LinkBtn from "$lib/components/LinkBtn.svelte";
-  import { onMount } from "svelte";
   import CollectionList from "./CollectionList.svelte";
-  import collection_store from "$lib/store/collection_store";
 
-  const { collections, fetch_collection } = collection_store;
-
-  onMount(() => {
-    fetch_collection();
-  });
+  export let data;
+  const { collections } = data;
 </script>
 
 <svelte:head>
@@ -17,8 +12,8 @@
 </svelte:head>
 
 <section>
-  {#if $collections.length}
-    <CollectionList collections={$collections} />
+  {#if collections.length}
+    <CollectionList {collections} />
   {/if}
   <div class="flex justify-end mt-10">
     <LinkBtn text="Add" href="/collection/create" />

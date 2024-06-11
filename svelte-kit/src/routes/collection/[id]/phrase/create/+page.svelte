@@ -71,7 +71,7 @@
         <input
           type="file"
           id="upload-audio-file"
-          accept=".wav,.mp3"
+          accept=".wav,.mp3,.m4a"
           required
           class=""
           name="recording"

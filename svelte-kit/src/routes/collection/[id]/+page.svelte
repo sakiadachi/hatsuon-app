@@ -7,16 +7,12 @@
   import { fetchApi } from "$lib/utils/fetchApi";
   import current_collection_store from "$lib/store/current_collection";
 
+  export let data;
+  const { collection } = data;
   const { current_collection } = current_collection_store;
 
-  onMount(async () => {
-    const result = await fetchApi(`api/v1/collections/${$page.params.id}/`);
-    if (result.ok) {
-      const json = await result.json();
-      current_collection.set(json);
-    } else {
-      goto("/", { replaceState: true });
-    }
+  onMount(() => {
+    current_collection.set(collection);
   });
 </script>
 
@@ -54,7 +50,5 @@
         href="/collection/{$current_collection.uuid}/phrase/create"
       />
     </div>
-  {:else}
-    <p>No such collection found.</p>
   {/if}
 </div>

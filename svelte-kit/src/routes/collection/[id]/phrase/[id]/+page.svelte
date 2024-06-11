@@ -9,6 +9,9 @@
   import { fetchApi } from "$lib/utils/fetchApi";
   import current_collection_store from "$lib/store/current_collection";
 
+  export let data;
+  const { phrase } = data;
+
   const { current_phrase, current_collection } = current_collection_store;
 
   /**
@@ -98,13 +101,7 @@
     if (!$current_collection) {
       await getCurrentCollection();
     }
-    const result = await fetchApi(`api/v1/phrases/${$page.params.id}/`);
-    if (result.ok) {
-      const json = await result.json();
-      current_phrase.set(json);
-    } else {
-      goto("/", { replaceState: true });
-    }
+    current_phrase.set(phrase);
     setRecorder();
   });
 

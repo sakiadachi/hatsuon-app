@@ -1,6 +1,10 @@
 <script lang="ts">
   import auth_store from "$lib/store/auth_store";
 
+  export let data;
+
+  const { loginState } = data;
+
   const { login } = auth_store;
 
   const handleSubmit = async (

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import auth_store from "$lib/store/auth_store";
+  import LoadingIndicator from "$lib/components/LoadingIndicator.svelte";
 
   const { logout } = auth_store;
 
@@ -21,7 +22,7 @@
 
 <div class="flex flex-col items-center gap-4 mt-24">
   {#if isLoading}
-    <p>Loading...</p>
+    <LoadingIndicator />
   {/if}
   {#if logoutSuccess}
     <p>You have successfully logged out.</p>
