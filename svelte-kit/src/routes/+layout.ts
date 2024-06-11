@@ -14,7 +14,6 @@ export const load: LayoutLoad = async ({}) => {
   } else {
     loginState = false;
   }
-  console.log(loginState);
 
   return {
     loginState,
