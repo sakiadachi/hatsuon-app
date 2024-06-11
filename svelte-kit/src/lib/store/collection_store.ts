@@ -16,8 +16,8 @@ const fetch_collection = async () => {
   collections.set([]);
 };
 
-const add_collection = async (collection: Collection) => {
-  const result = await fetchApi(
+const add_collection = async (collection: Collection) =>
+  fetchApi(
     "api/v1/collections/",
     {
       method: "POST",
@@ -25,10 +25,6 @@ const add_collection = async (collection: Collection) => {
     },
     { "Content-Type": "application/json" },
   );
-  if (result.ok) {
-    console.log("ok");
-  }
-};
 
 export default {
   collections,
