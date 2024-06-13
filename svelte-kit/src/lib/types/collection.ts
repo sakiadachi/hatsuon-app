@@ -15,7 +15,7 @@ type Collection = {
  * Phrase
  */
 type Phrase = {
-  title: string; // maxLength = 150?
+  title: string;
   description?: string;
   /**
    * original recording file id
@@ -37,8 +37,11 @@ type Phrase = {
  */
 type Take = {
   title: string;
-  description?: string;
-  file: string;
-  date: number;
-  id: string;
+  recording?: string;
+  point: number;
+  phrase: string;
+  created_date?: number;
+  created_by?: string;
+  id?: string;
+  uuid?: string;
 };

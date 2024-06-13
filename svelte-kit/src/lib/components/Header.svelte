@@ -6,11 +6,12 @@
     type RouteName,
   } from "$lib/store/route/data";
   import current_data from "$lib/store/current_collection";
+  import current_phrase_store from "$lib/store/current_phrase_store";
   import auth_store from "$lib/store/auth_store";
 
   // Selected Collection
-  const { collection_id, collection_title, phrase_id, phrase_title } =
-    current_data;
+  const { collection_id, collection_title } = current_data;
+  const { phrase_id, phrase_title } = current_phrase_store;
 
   const { isLoggedIn } = auth_store;
 

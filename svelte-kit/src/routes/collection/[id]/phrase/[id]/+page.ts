@@ -4,22 +4,31 @@ import type { PageLoad } from "./$types";
 
 export const prerender = false;
 
-export type AudioSrc = {
-  src: string;
-  name: string;
-};
-
 export const load: PageLoad = async ({ params }) => {
-  let phrase: Phrase | undefined = undefined;
-  const result = await fetchApi(`api/v1/phrases/${params.id}/`);
-  if (result.ok) {
-    const item = await result.json();
-    phrase = item;
-  } else {
-    error(result.status, result.statusText);
-  }
+  const fetchPhrase = () =>
+    fetchApi(`api/v1/phrases/${params.id}/`)
+      .then((res) => {
+        if (!res.ok) {
+          error(res.status, res.statusText);
+        }
+        return res.json();
+      })
+      .then((res) => res)
+      .catch((err) => console.error(err));
+
+  const fetchPhraseTakes = () =>
+    fetchApi(`api/v1/takes/?phrase_uuid=${params.id}`)
+      .then((res) => {
+        if (!res.ok) {
+          error(res.status, res.statusText);
+        }
+        return res.json();
+      })
+      .then((res) => res.results)
+      .catch((err) => console.error(err));
 
   return {
-    phrase,
+    phrase: await fetchPhrase(),
+    takes: await fetchPhraseTakes(),
   };
 };

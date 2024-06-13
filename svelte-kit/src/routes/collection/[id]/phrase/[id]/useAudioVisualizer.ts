@@ -1,5 +1,3 @@
-import type { AudioSrc } from "./+page";
-
 type BarData = {
   max: number;
   min: number;
@@ -123,7 +121,7 @@ const drawTimeBar = (
 
 export function visualizeAudio(
   canvasEl: HTMLCanvasElement,
-  audioSrc: AudioSrc,
+  audioSrc: string,
 ): Promise<{ audioDuration: number }> {
   // @ts-ignore-next-line
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -137,7 +135,7 @@ export function visualizeAudio(
     throw new Error("Expected canvasContext");
   }
   return new Promise((resolve, reject) =>
-    fetch(audioSrc.src)
+    fetch(audioSrc)
       .then((res) => res.arrayBuffer())
       .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
       .then((audioBuffer) => {

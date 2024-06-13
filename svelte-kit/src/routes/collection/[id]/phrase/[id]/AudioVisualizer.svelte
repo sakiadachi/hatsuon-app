@@ -1,7 +1,6 @@
 <script lang="ts">
-  import type { AudioSrc } from "./+page";
   import { visualizeAudio } from "./useAudioVisualizer";
-  export let audioSrc: AudioSrc;
+  export let audioSrc: string;
 
   let container: HTMLDivElement | undefined;
   let containerWidth: number;
@@ -50,7 +49,7 @@
     style="left:{timePos}px"
   ></span>
   <audio
-    src={audioSrc.src}
+    src={audioSrc}
     controls
     style="width:{containerWidth}px"
     on:timeupdate={moveCurrentTimeIndicator}
