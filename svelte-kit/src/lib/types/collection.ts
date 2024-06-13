@@ -4,7 +4,7 @@
 type Collection = {
   title: string;
   description?: string;
-  phrases: string[];
+  phrases: Phrase[];
   created_date?: number;
   created_by?: string;
   id?: string;
@@ -44,4 +44,10 @@ type Take = {
   created_by?: string;
   id?: string;
   uuid?: string;
+};
+
+type RecordingType = {
+  src: string;
+  uuid: string;
+  file: File;
 };

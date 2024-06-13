@@ -1,10 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
   import LinkBtn from "$lib/components/LinkBtn.svelte";
-  import type { PageData } from "./$types";
-  import { fetchApi } from "$lib/utils/fetchApi";
   import current_collection_store from "$lib/store/current_collection";
 
   export let data;
