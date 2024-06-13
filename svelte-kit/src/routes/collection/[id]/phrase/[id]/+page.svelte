@@ -3,18 +3,21 @@
   import { goto } from "$app/navigation";
   import type { PageData } from "./$types";
   import { onMount } from "svelte";
+  import { v4 as uuid } from "uuid";
   import AudioVisualizer from "./AudioVisualizer.svelte";
   import Takes from "./Takes.svelte";
   import LocalTakes from "./LocalTakes.svelte";
   import { fetchApi } from "$lib/utils/fetchApi";
   import current_collection_store from "$lib/store/current_collection";
   import current_phease_store from "$lib/store/current_phrase_store";
+  import useLocalRecordings from "./useLocalRecordings";
 
-  export let data;
+  export let data: PageData;
   const { phrase, takes } = data;
 
   const { current_collection } = current_collection_store;
   const { current_phrase, current_takes } = current_phease_store;
+  const { filterRecording, saveRecording } = useLocalRecordings;
 
   /**
    * Original phrase source from Input
@@ -24,7 +27,7 @@
   /**
    * Recording sources
    */
-  let recordings: AudioSrc[] = [];
+  let recordings: RecordingType[] = [];
   /**
    * Weather if recording start btn is enabled
    */
@@ -53,10 +56,19 @@
             mediaRecorder.stop();
             is_enabled_rec_start_btn = true;
 
-            const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+            const uid: string = uuid();
+            const blob = new Blob(chunks, { type: "audio/mpeg" });
+            const file = new File([blob], uid);
             chunks = [];
             const audio_url = window.URL.createObjectURL(blob);
-            recordings = [...recordings, audio_url];
+            recordings = [
+              ...recordings,
+              {
+                src: audio_url,
+                uuid: uid,
+                file: file,
+              } as RecordingType,
+            ];
           }
         };
         mediaRecorder.ondataavailable = (e) => {
@@ -73,7 +85,7 @@
     const matched = pathname.match(
       "(?<=/collection/)([a-zA-Z0-9-]+)(?=/phrase/.*$)",
     );
-    if (matched.length > 0) {
+    if (matched && matched.length > 0) {
       const result = await fetchApi(`api/v1/collections/${matched[0]}/`);
       if (result.ok) {
         const json = await result.json();
@@ -115,6 +127,29 @@
     }
     phraseSrc = window.URL.createObjectURL(e.currentTarget.files[0]);
   };
+
+  const deleteLocalRecording = (r: RecordingType) => {
+    recordings = filterRecording(recordings, r);
+  };
+
+  const saveLocalRecording = async (r: RecordingType) => {
+    if ($current_phrase == null || $current_phrase.id == null) {
+      return;
+    }
+    const result = await saveRecording(r, $current_phrase.id);
+    if (!result.ok) {
+      alert("Failed to save recording. Please try again.");
+      return;
+    }
+    const res = await fetchApi(
+      `api/v1/takes/?phrase_uuid=${$current_phrase.uuid}`,
+    );
+    if (res.ok) {
+      const json = await res.json();
+      current_takes.set(json.results);
+    }
+    recordings = filterRecording(recordings, r);
+  };
 </script>
 
 <svelte:head>
@@ -154,7 +189,13 @@
       <p class="mb-4">
         Click "Save" if you want to save your recoring to the database.
       </p>
-      <LocalTakes takes={recordings} />
+      <LocalTakes
+        {recordings}
+        on:delete-recording={(e) => deleteLocalRecording(e.detail.recording)}
+        on:save-recording={(e) => {
+          saveLocalRecording(e.detail.recording);
+        }}
+      />
     {:else}
       <p class="text-center p-4">You don't have recordings yet!</p>
     {/if}

@@ -30,6 +30,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "sass": "^1.75.0",
+    "uuidv4": "^6.2.13",
     "waveform-playlist": "^4.3.3"
   }
 }

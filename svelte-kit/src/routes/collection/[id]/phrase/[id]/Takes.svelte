@@ -1,14 +1,12 @@
 <script lang="ts">
+  import { fetchApi } from "$lib/utils/fetchApi";
   /**
    * Component to show & play audio files
    * fetched from database
    */
   import AudioVisualizer from "./AudioVisualizer.svelte";
-  import PlayIcon from "$lib/images/hero_icons/PlayIcon.svelte";
-  import { onMount } from "svelte";
-  import { fetchApi } from "$lib/utils/fetchApi";
 
-  export let takes: Takes[];
+  export let takes: Take[];
   let playWithOriginalRecording = false;
 
   const clickRemove = () => {};
@@ -26,7 +24,7 @@
           <button on:click={clickRemove} class="p-1">🗑️ Remove</button>
         </div>
       </div>
-      <AudioVisualizer audioSrc={take.recording} />
+      <AudioVisualizer audioSrc={take.recording || ""} />
     </li>
   {/each}
 </ul>
