@@ -44,3 +44,26 @@ class Phrase(models.Model):
 
     class Meta:
         ordering = ["-created_date"]
+
+
+class Take(models.Model):
+    """
+    Take
+    """
+
+    uuid = models.UUIDField(
+        default=uuid.uuid4, editable=False, db_index=True, unique=True
+    )
+    created_date = models.DateTimeField(auto_now_add=True)
+    recording = models.FileField(upload_to="", null=True)
+    point = models.PositiveIntegerField(default=0)
+
+    phrase = models.ForeignKey(Phrase, on_delete=models.CASCADE)
+
+    created_by = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ["-created_date"]
