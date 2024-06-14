@@ -57,7 +57,7 @@ class Take(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     recording = models.FileField(upload_to="", null=True)
     point = models.PositiveIntegerField(default=0)
-
+    title = models.CharField(default="",max_length=200)
     phrase = models.ForeignKey(Phrase, on_delete=models.CASCADE)
 
     created_by = models.ForeignKey("auth.User", on_delete=models.CASCADE)

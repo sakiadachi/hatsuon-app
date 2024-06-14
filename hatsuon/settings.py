@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "dj_rest_auth",
     "hatsuon_app",
-    "corsheaders"
+    "corsheaders",
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

@@ -39,6 +39,7 @@ sqlparse = "0.5.0"
 typing_extensions = "4.11.0"
 urllib3 = "2.2.1"
 whitenoise = "6.6.0"
+django-cleanup = "^8.1.0"
 
 
 [build-system]
