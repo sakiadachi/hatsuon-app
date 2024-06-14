@@ -72,7 +72,6 @@
           type="file"
           id="upload-audio-file"
           accept=".wav,.mp3,.m4a"
-          required
           class=""
           name="recording"
           bind:value={recording}
