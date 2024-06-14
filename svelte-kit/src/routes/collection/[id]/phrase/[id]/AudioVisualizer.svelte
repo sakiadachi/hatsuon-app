@@ -43,9 +43,9 @@
 </script>
 
 <div bind:this={container} class="relative">
-  <canvas bind:this={canvas} height="200"></canvas>
+  <canvas bind:this={canvas} height="150"></canvas>
   <span
-    class="absolute w-[2px] h-[200px] top-0 bg-orange-500"
+    class="absolute w-[2px] h-[150px] top-0 bg-orange-500"
     style="left:{timePos}px"
   ></span>
   <audio
@@ -53,5 +53,5 @@
     controls
     style="width:{containerWidth}px"
     on:timeupdate={moveCurrentTimeIndicator}
-  ></audio>
+  />
 </div>

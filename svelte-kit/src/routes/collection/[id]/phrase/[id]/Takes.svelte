@@ -1,15 +1,21 @@
 <script lang="ts">
-  import { fetchApi } from "$lib/utils/fetchApi";
   /**
    * Component to show & play audio files
    * fetched from database
    */
   import AudioVisualizer from "./AudioVisualizer.svelte";
+  import current_phrase_store from "$lib/store/current_phrase_store";
 
   export let takes: Take[];
+  const { phrase_id, fetchTakes, deleteTake } = current_phrase_store;
   let playWithOriginalRecording = false;
 
-  const clickRemove = () => {};
+  const clickDelete = async (take: Take) => {
+    const result = await deleteTake(take.uuid ?? "");
+    if (result.ok) {
+      await fetchTakes($phrase_id);
+    }
+  };
 </script>
 
 <ul class="list-inside">
@@ -21,7 +27,9 @@
             <input bind:value={playWithOriginalRecording} type="checkbox" />
             Sync play
           </label>
-          <button on:click={clickRemove} class="p-1">🗑️ Remove</button>
+          <button on:click={() => clickDelete(take)} class="p-1"
+            >🗑️ Delete</button
+          >
         </div>
       </div>
       <AudioVisualizer audioSrc={take.recording || ""} />
