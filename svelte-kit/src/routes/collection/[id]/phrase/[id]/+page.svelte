@@ -16,7 +16,8 @@
   const { phrase, takes } = data;
 
   const { current_collection } = current_collection_store;
-  const { current_phrase, current_takes } = current_phease_store;
+  const { current_phrase, current_takes, fetchTakes, saveRecordingToPhrase } =
+    current_phease_store;
   const { filterRecording, saveRecording } = useLocalRecordings;
 
   /**
@@ -117,15 +118,21 @@
     }
   };
 
-  const onInput = (
+  const onInput = async (
     e: Event & {
       currentTarget: EventTarget & HTMLInputElement;
     },
   ) => {
-    if (e.currentTarget?.files?.[0] == null) {
+    if (e.currentTarget?.files?.[0] == null || $current_phrase == null) {
       return;
     }
-    phraseSrc = window.URL.createObjectURL(e.currentTarget.files[0]);
+    const result = await saveRecordingToPhrase(
+      e.currentTarget.files[0],
+      $current_phrase,
+    );
+    if (result) {
+      current_phrase.set(result);
+    }
   };
 
   const deleteLocalRecording = (r: RecordingType) => {
@@ -141,13 +148,7 @@
       alert("Failed to save recording. Please try again.");
       return;
     }
-    const res = await fetchApi(
-      `api/v1/takes/?phrase_uuid=${$current_phrase.uuid}`,
-    );
-    if (res.ok) {
-      const json = await res.json();
-      current_takes.set(json.results);
-    }
+    await fetchTakes($current_phrase.id);
     recordings = filterRecording(recordings, r);
   };
 </script>
