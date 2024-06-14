@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import CreateCollectionForm from "$lib/layout/CreateCollectionForm.svelte";
+  import Button from "$lib/components/Button.svelte";
   import { fetchApi } from "$lib/utils/fetchApi";
 
   let title: string;
@@ -32,40 +32,42 @@
   };
 </script>
 
-<div>
-  <CreateCollectionForm
-    pageTitle="Create Collection"
-    on:click={(e) => {
-      add_collection();
-    }}
-  >
-    <label slot="form-row-1--label" for="collection-title" class=""
-      >Title:</label
-    >
-    <input
-      slot="form-row-1--input"
-      type="text"
-      id="collection-title"
-      name="collection-title"
-      bind:value={title}
-      required
-      maxlength="150"
-      placeholder="Hey there"
-      class="border rounded max-h-12 p-2"
-    />
+<div class="h-full">
+  <form on:submit|preventDefault={add_collection} id="create-new-item-form">
+    <fieldset class="flex flex-col gap-6">
+      <legend class="d-flex justify-center w-full"
+        ><h1 class="mb-12">Create Collection</h1></legend
+      >
+      <div class="grid grid-cols-[10rem_1fr] grid-rows-1 gap-4">
+        <label for="collection-title" class="">Title:</label>
+        <input
+          type="text"
+          id="collection-title"
+          name="collection-title"
+          bind:value={title}
+          required
+          maxlength="150"
+          placeholder="Hey there"
+          class="border rounded max-h-12 p-2"
+        />
+      </div>
 
-    <label slot="form-row-2--label" for="collection-description"
-      >Description:
-    </label>
-    <textarea
-      slot="form-row-2--input"
-      id="collection-description"
-      name="collection-description"
-      bind:value={description}
-      maxlength="300"
-      placeholder="adsdfsadf asfasfadddd"
-      rows="5"
-      class="border rounded p-2"
-    />
-  </CreateCollectionForm>
+      <div class="grid grid-cols-[10rem_1fr] grid-rows-1 gap-4">
+        <label for="collection-description">Description: </label>
+        <textarea
+          id="collection-description"
+          name="collection-description"
+          bind:value={description}
+          maxlength="300"
+          placeholder="adsdfsadf asfasfadddd"
+          rows="5"
+          class="border rounded p-2"
+        />
+      </div>
+    </fieldset>
+
+    <div class="flex justify-end col-span-3">
+      <Button text="Submit" type="submit" />
+    </div>
+  </form>
 </div>
