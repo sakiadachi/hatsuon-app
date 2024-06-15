@@ -47,7 +47,7 @@
           bind:value={title}
           required
           maxlength="150"
-          placeholder="Hey there"
+          placeholder="JLPT N1 vocaburaly"
           class="border rounded max-h-12 p-2"
         />
       </div>
@@ -59,7 +59,7 @@
           name="collection-description"
           bind:value={description}
           maxlength="300"
-          placeholder="adsdfsadf asfasfadddd"
+          placeholder="description"
           rows="5"
           class="border rounded p-2"
         />

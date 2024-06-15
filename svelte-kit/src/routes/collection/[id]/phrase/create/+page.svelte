@@ -50,7 +50,7 @@
           bind:value={title}
           required
           maxlength="150"
-          placeholder="Hey there"
+          placeholder="おはよう"
           class="border rounded p-2"
         />
       </div>
@@ -61,7 +61,7 @@
           name="description"
           bind:value={description}
           maxlength="300"
-          placeholder="adsdfsadf asfasfadddd"
+          placeholder="Good morning in Japanese"
           rows="5"
           class="border rounded p-2"
         />
