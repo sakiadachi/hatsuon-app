@@ -59,7 +59,7 @@
 
             const uid: string = uuid();
             const blob = new Blob(chunks, { type: "audio/mpeg" });
-            const file = new File([blob], uid);
+            const file = new File([blob], blob.name);
             chunks = [];
             const audio_url = window.URL.createObjectURL(blob);
             recordings = [

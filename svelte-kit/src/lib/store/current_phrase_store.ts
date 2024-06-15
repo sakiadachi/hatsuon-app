@@ -48,8 +48,6 @@ const saveRecordingToPhrase = async (
  */
 const current_takes: Writable<Take[]> = writable([]);
 
-// methods
-
 /**
  * Fetch takes with phrase id
  * @param phrase_id
