@@ -64,19 +64,26 @@ const fetchTakes = (phrase_id: string) =>
 /**
  * Delete Take
  * @param take_uuid uuid of Take
+ * @param phrase_id uuid of Phrase
  */
-const deleteTake = (take_uuid: string) =>
-  fetchApi(`api/v1/takes/${take_uuid}/`, {
+const deleteTake = async (take_uuid: string, phrase_id: string) => {
+  const result = await fetchApi(`api/v1/takes/${take_uuid}/`, {
     method: "DELETE",
   });
+  if (result.ok) {
+    await fetchTakes(phrase_id);
+  } else {
+    error(result.status, result.statusText);
+  }
+};
 
 export default {
   current_phrase,
   phrase_title,
   phrase_id,
-  current_takes,
   saveRecordingToPhrase,
   // takes
+  current_takes,
   fetchTakes,
   deleteTake,
 };

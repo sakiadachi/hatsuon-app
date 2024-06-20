@@ -7,14 +7,11 @@
   import current_phrase_store from "$lib/store/current_phrase_store";
 
   export let takes: Take[];
-  const { phrase_id, fetchTakes, deleteTake } = current_phrase_store;
+  const { phrase_id, deleteTake } = current_phrase_store;
   let playWithOriginalRecording = false;
 
   const clickDelete = async (take: Take) => {
-    const result = await deleteTake(take.uuid ?? "");
-    if (result.ok) {
-      await fetchTakes($phrase_id);
-    }
+    await deleteTake(take.uuid ?? "", $phrase_id);
   };
 </script>
 

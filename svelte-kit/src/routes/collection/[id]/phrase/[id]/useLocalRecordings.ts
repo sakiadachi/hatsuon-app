@@ -1,4 +1,7 @@
 import { fetchApi } from "$lib/utils/fetchApi";
+import { writable, type Writable } from "svelte/store";
+
+const local_recordings: Writable<RecordingType[]> = writable([]);
 
 const filterRecording = (
   recordings: RecordingType[],
@@ -21,6 +24,7 @@ const saveRecording = (recording: RecordingType, phrase_id: string) => {
 };
 
 export default {
+  local_recordings,
   filterRecording,
   saveRecording,
 };
