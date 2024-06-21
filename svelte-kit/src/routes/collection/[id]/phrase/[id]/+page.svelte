@@ -1,22 +1,14 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import { goto } from "$app/navigation";
-  import type { PageData } from "./$types";
   import { onMount } from "svelte";
   import { v4 as uuid } from "uuid";
-  import { fetchApi } from "$lib/utils/fetchApi";
-  import current_collection_store from "$lib/store/current_collection";
   import current_phease_store from "$lib/store/current_phrase_store";
   import useLocalRecordings from "./useLocalRecordings";
   import PhraseSection from "./sections/PhraseSection.svelte";
   import TakesSection from "./sections/TakesSection.svelte";
   import LocalRecordingSection from "./sections/LocalRecordingSection.svelte";
   import RecordingSection from "./sections/RecordingSection.svelte";
+  import useSyncPlay from "./hooks/useSyncPlay";
 
-  export let data: PageData;
-  const { phrase, takes } = data;
-
-  const { current_collection } = current_collection_store;
   const {
     current_phrase,
     current_takes,
@@ -27,6 +19,9 @@
   } = current_phease_store;
   const { local_recordings, filterRecording, saveRecording } =
     useLocalRecordings;
+
+  const { syncPlayState, extendedTakes, onPlay, onPause, onEnded } =
+    useSyncPlay;
 
   let mediaRecorder: MediaRecorder | undefined = undefined;
 
@@ -82,22 +77,6 @@
       });
   };
 
-  const getCurrentCollection = async () => {
-    const { pathname } = $page.url;
-    const matched = pathname.match(
-      "(?<=/collection/)([a-zA-Z0-9-]+)(?=/phrase/.*$)",
-    );
-    if (matched && matched.length > 0) {
-      const result = await fetchApi(`api/v1/collections/${matched[0]}/`);
-      if (result.ok) {
-        const json = await result.json();
-        current_collection.set(json);
-      } else {
-        goto("/", { replaceState: true });
-      }
-    }
-  };
-
   const onInput = async (
     e: Event & {
       currentTarget: EventTarget & HTMLInputElement;
@@ -116,24 +95,19 @@
   };
 
   const saveLocalRecording = async (r: RecordingType) => {
-    if ($current_phrase == null || $current_phrase.id == null) {
+    if ($phrase_id == null) {
       return;
     }
-    const result = await saveRecording(r, $current_phrase.id);
+    const result = await saveRecording(r, $phrase_id);
     if (!result.ok) {
       alert("Failed to save recording. Please try again.");
       return;
     }
-    await fetchTakes($current_phrase.id);
+    await fetchTakes($phrase_id);
     local_recordings.set(filterRecording($local_recordings, r));
   };
 
   onMount(async () => {
-    if (!$current_collection) {
-      await getCurrentCollection();
-    }
-    current_phrase.set(phrase);
-    current_takes.set(takes);
     setRecorder();
   });
 </script>
@@ -144,12 +118,18 @@
 </svelte:head>
 
 <div class="flex flex-col place-content-between">
-  <PhraseSection current_phrase={$current_phrase} callbackOnInput={onInput} />
-
+  <PhraseSection
+    current_phrase={$current_phrase}
+    callbackOnInput={onInput}
+    {onPlay}
+    {onPause}
+    {onEnded}
+  />
   <div class="min-h-80 mt-8">
     <h2 class="text-xl">Your Takes</h2>
     <TakesSection
       current_takes={$current_takes}
+      syncPlayState={$syncPlayState}
       on:click-delete={(e) => {
         if (e.detail.take.uuid == null) return;
         deleteTake(e.detail.take.uuid, $phrase_id);

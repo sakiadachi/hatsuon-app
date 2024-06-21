@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { onMount } from "svelte";
   import {
     nav_items,
     type NavItem,
@@ -10,7 +11,12 @@
   import auth_store from "$lib/store/auth_store";
 
   // Selected Collection
-  const { collection_id, collection_title } = current_data;
+  const {
+    current_collection,
+    collection_id,
+    collection_title,
+    fetchCurrentCollection,
+  } = current_data;
   const { phrase_id, phrase_title } = current_phrase_store;
 
   const { isLoggedIn } = auth_store;
@@ -57,6 +63,21 @@
       }
     }
   }
+  const getCurrentCollection = () => {
+    const { pathname } = $page.url;
+    const matched = pathname.match(
+      "(?<=/collection/)([a-zA-Z0-9-]+)(?=/phrase/.*$)",
+    );
+    if (matched && matched.length > 0) {
+      fetchCurrentCollection(matched[0]);
+    }
+  };
+
+  onMount(() => {
+    if (!$current_collection) {
+      getCurrentCollection();
+    }
+  });
 </script>
 
 <header class="flex w-full p-4 max-w-screen-lg m-auto">
