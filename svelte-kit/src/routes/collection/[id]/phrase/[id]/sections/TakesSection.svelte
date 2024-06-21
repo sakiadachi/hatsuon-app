@@ -1,24 +1,74 @@
 <script lang="ts">
-  import AudioVisualizer from "../AudioVisualizer.svelte";
   import { createEventDispatcher } from "svelte";
+  import AudioCanvas from "./AudioCanvas.svelte";
+  import type { ExtendedTake, SyncPlayState } from "../hooks/useSyncPlay";
+  import useSyncPlay from "../hooks/useSyncPlay";
 
   export let current_takes: Take[];
+  export let syncPlayState: SyncPlayState;
+
+  let syncPlayList: HTMLAudioElement[];
+  $: syncPlayList = [];
+
+  let containerWidth: number;
+  const { extendedTakes } = useSyncPlay;
+
+  $: if (syncPlayState && syncPlayList.length) {
+    console.log(syncPlayState, syncPlayList);
+    if (syncPlayState.play) {
+      syncPlayList.forEach((audioNode: HTMLAudioElement) => audioNode.play());
+    } else if (syncPlayState.paused) {
+      syncPlayList.forEach((audioNode: HTMLAudioElement) => audioNode.pause());
+    } else if (syncPlayState.ended) {
+      syncPlayList.forEach((audioNode: HTMLAudioElement) => audioNode.pause());
+    }
+  }
+
+  const onTimeUpdate = (
+    e: Event & {
+      currentTarget: EventTarget & HTMLAudioElement;
+    },
+    take: ExtendedTake,
+  ) => {
+    // TODO: Fix timebar does not move
+    take.currentTime = e.currentTarget.currentTime;
+    take.duration = e.currentTarget.duration;
+    const percent = take.currentTime / take.duration;
+    take.timePos = Math.floor(containerWidth * percent);
+  };
+
+  const bindEl = (node: HTMLAudioElement, take: ExtendedTake) => {
+    take.audioEl = node;
+  };
 
   const dispatch = createEventDispatcher();
-  let sync_play_list: string[];
+  $: if (current_takes) {
+    extendedTakes.set(
+      current_takes.map(
+        (take) =>
+          ({
+            ...take,
+            audioEl: undefined,
+            duration: 0,
+            currentTime: 0,
+            timePos: 0,
+          }) as ExtendedTake,
+      ),
+    );
+  }
 </script>
 
-{#if current_takes.length > 0}
+{#if $extendedTakes.length > 0}
   <ul class="list-inside">
-    {#each current_takes as take}
+    {#each $extendedTakes as take, i}
       <li class="mb-4">
         <div class="flex items-center justify-end">
           <div class="flex">
             <label class="p-1">
               <input
                 type="checkbox"
-                bind:group={sync_play_list}
-                value={take.uuid}
+                bind:group={syncPlayList}
+                value={take.audioEl}
               />
               Sync play
             </label>
@@ -27,7 +77,22 @@
             >
           </div>
         </div>
-        <AudioVisualizer audioSrc={take.recording || ""} />
+        <div bind:clientWidth={containerWidth} class="relative">
+          <AudioCanvas recording={take.recording} w={containerWidth} h={150} />
+          <span
+            class="absolute w-[2px] h-[150px] top-0 bg-orange-500"
+            style="left:{take.timePos}px"
+          ></span>
+
+          <audio
+            src={take.recording}
+            bind:duration={take.duration}
+            on:timeupdate={(e) => onTimeUpdate(e, take)}
+            use:bindEl={take}
+            class="w-full"
+            controls
+          />
+        </div>
       </li>
     {/each}
   </ul>

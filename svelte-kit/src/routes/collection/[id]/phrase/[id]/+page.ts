@@ -1,6 +1,7 @@
 import { fetchApi } from "$lib/utils/fetchApi";
 import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
+import current_phrase_store from "$lib/store/current_phrase_store";
 
 export const prerender = false;
 
@@ -13,8 +14,9 @@ export const load: PageLoad = async ({ params }) => {
         }
         return res.json();
       })
-      .then((res) => res)
-      .catch((err) => console.error(err));
+      .then((res) => {
+        current_phrase_store.current_phrase.set(res);
+      });
 
   const fetchPhraseTakes = () =>
     fetchApi(`api/v1/takes/?phrase_uuid=${params.id}`)
@@ -24,11 +26,10 @@ export const load: PageLoad = async ({ params }) => {
         }
         return res.json();
       })
-      .then((res) => res.results)
-      .catch((err) => console.error(err));
+      .then((res) => {
+        current_phrase_store.current_takes.set(res.results);
+      });
 
-  return {
-    phrase: await fetchPhrase(),
-    takes: await fetchPhraseTakes(),
-  };
+  Promise.all([fetchPhrase(), fetchPhraseTakes()]);
+  return {};
 };
