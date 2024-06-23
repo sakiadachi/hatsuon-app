@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { visualizeAudio } from "./useAudioVisualizer";
+  import { visualizeAudio } from "./hooks/useAudioVisualizer";
   export let audioSrc: string;
 
   let container: HTMLDivElement | undefined;

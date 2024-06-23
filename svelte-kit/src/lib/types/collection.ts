@@ -45,9 +45,3 @@ type Take = {
   id?: string;
   uuid?: string;
 };
-
-type RecordingType = {
-  src: string;
-  uuid: string;
-  file: File;
-};

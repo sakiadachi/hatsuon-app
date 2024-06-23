@@ -4,7 +4,7 @@
   import type { ExtendedTake, SyncPlayState } from "../hooks/useSyncPlay";
   import useSyncPlay from "../hooks/useSyncPlay";
 
-  export let current_takes: Take[];
+  export let currentTakes: Take[];
   export let syncPlayState: SyncPlayState;
 
   let syncPlayList: HTMLAudioElement[];
@@ -14,7 +14,7 @@
   const { extendedTakes } = useSyncPlay;
 
   $: if (syncPlayState && syncPlayList.length) {
-    console.log(syncPlayState, syncPlayList);
+    console.debug(syncPlayState, syncPlayList);
     if (syncPlayState.play) {
       syncPlayList.forEach((audioNode: HTMLAudioElement) => audioNode.play());
     } else if (syncPlayState.paused) {
@@ -42,9 +42,9 @@
   };
 
   const dispatch = createEventDispatcher();
-  $: if (current_takes) {
+  $: if (currentTakes) {
     extendedTakes.set(
-      current_takes.map(
+      currentTakes.map(
         (take) =>
           ({
             ...take,

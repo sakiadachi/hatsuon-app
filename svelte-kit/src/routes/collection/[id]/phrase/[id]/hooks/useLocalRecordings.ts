@@ -1,7 +1,14 @@
 import { fetchApi } from "$lib/utils/fetchApi";
 import { writable, type Writable } from "svelte/store";
 
-const local_recordings: Writable<RecordingType[]> = writable([]);
+export type RecordingType = {
+  src: string;
+  uuid: string;
+  file: File;
+};
+
+const isRecording = writable(false);
+const localRecordings: Writable<RecordingType[]> = writable([]);
 
 const filterRecording = (
   recordings: RecordingType[],
@@ -10,7 +17,6 @@ const filterRecording = (
 
 /**
  * Save local recording to database as Take
- * @param recording
  */
 const saveRecording = (recording: RecordingType, phrase_id: string) => {
   const formData = new FormData();
@@ -23,8 +29,15 @@ const saveRecording = (recording: RecordingType, phrase_id: string) => {
   });
 };
 
+const resetState = () => {
+  isRecording.set(false);
+  localRecordings.set([]);
+};
+
 export default {
-  local_recordings,
+  isRecording,
+  localRecordings,
   filterRecording,
   saveRecording,
+  resetState,
 };

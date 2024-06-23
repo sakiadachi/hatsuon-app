@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { visualizeAudio } from "../useAudioVisualizer";
+  import { visualizeAudio } from "../hooks/useAudioVisualizer.ts";
 
   export let recording: string | undefined;
   export let w: number;

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { v4 as uuid } from "uuid";
   import current_phease_store from "$lib/store/current_phrase_store";
-  import useLocalRecordings from "./useLocalRecordings";
+  import useLocalRecordings from "./hooks/useLocalRecordings.ts";
   import PhraseSection from "./sections/PhraseSection.svelte";
   import TakesSection from "./sections/TakesSection.svelte";
   import LocalRecordingSection from "./sections/LocalRecordingSection.svelte";
@@ -17,18 +17,24 @@
     saveRecordingToPhrase,
     deleteTake,
   } = current_phease_store;
-  const { local_recordings, filterRecording, saveRecording } =
-    useLocalRecordings;
 
-  const { syncPlayState, extendedTakes, onPlay, onPause, onEnded } =
-    useSyncPlay;
+  const {
+    isRecording,
+    localRecordings,
+    filterRecording,
+    saveRecording,
+    resetState: resetLocalRecState,
+  } = useLocalRecordings;
+
+  const {
+    syncPlayState,
+    onPlay,
+    onPause,
+    onEnded,
+    resetState: resetSyncPlayState,
+  } = useSyncPlay;
 
   let mediaRecorder: MediaRecorder | undefined = undefined;
-
-  /**
-   * Weather if recording start btn is enabled
-   */
-  let is_enabled_rec_start_btn = true;
 
   const setRecorder = async () => {
     if (!navigator.mediaDevices) {
@@ -42,24 +48,24 @@
         let chunks: BlobPart[] = [];
 
         mediaRecorder.onstart = (e) => {
-          console.log("start");
-          is_enabled_rec_start_btn = false;
+          console.debug("start");
+          isRecording.set(true);
         };
 
         mediaRecorder.onstop = (e) => {
-          console.log("stop");
+          console.debug("stop");
 
           if (mediaRecorder) {
             mediaRecorder.stop();
-            is_enabled_rec_start_btn = true;
+            isRecording.set(false);
 
             const uid: string = uuid();
             const blob = new Blob(chunks, { type: "audio/mpeg" });
             const file = new File([blob], blob.name);
             chunks = [];
             const audio_url = window.URL.createObjectURL(blob);
-            local_recordings.set([
-              ...$local_recordings,
+            localRecordings.set([
+              ...$localRecordings,
               {
                 src: audio_url,
                 uuid: uid,
@@ -77,23 +83,6 @@
       });
   };
 
-  const onInput = async (
-    e: Event & {
-      currentTarget: EventTarget & HTMLInputElement;
-    },
-  ) => {
-    if (e.currentTarget?.files?.[0] == null || $current_phrase == null) {
-      return;
-    }
-    const result = await saveRecordingToPhrase(
-      e.currentTarget.files[0],
-      $current_phrase,
-    );
-    if (result) {
-      current_phrase.set(result);
-    }
-  };
-
   const saveLocalRecording = async (r: RecordingType) => {
     if ($phrase_id == null) {
       return;
@@ -104,11 +93,16 @@
       return;
     }
     await fetchTakes($phrase_id);
-    local_recordings.set(filterRecording($local_recordings, r));
+    localRecordings.set(filterRecording($localRecordings, r));
   };
 
   onMount(async () => {
     setRecorder();
+  });
+
+  onDestroy(() => {
+    resetLocalRecState();
+    resetSyncPlayState();
   });
 </script>
 
@@ -119,16 +113,27 @@
 
 <div class="flex flex-col place-content-between">
   <PhraseSection
-    current_phrase={$current_phrase}
-    callbackOnInput={onInput}
+    currentPhrase={$current_phrase}
     {onPlay}
     {onPause}
     {onEnded}
+    callbackOnInput={async (e) => {
+      if (e.currentTarget?.files?.[0] == null || $current_phrase == null) {
+        return;
+      }
+      const result = await saveRecordingToPhrase(
+        e.currentTarget.files[0],
+        $current_phrase,
+      );
+      if (result) {
+        current_phrase.set(result);
+      }
+    }}
   />
   <div class="min-h-80 mt-8">
     <h2 class="text-xl">Your Takes</h2>
     <TakesSection
-      current_takes={$current_takes}
+      currentTakes={$current_takes}
       syncPlayState={$syncPlayState}
       on:click-delete={(e) => {
         if (e.detail.take.uuid == null) return;
@@ -138,10 +143,10 @@
 
     <h2 class="text-xl">Your Local Recordings</h2>
     <LocalRecordingSection
-      recordings={$local_recordings}
+      recordings={$localRecordings}
       on:delete-recording={(e) => {
-        local_recordings.set(
-          filterRecording($local_recordings, e.detail.recording),
+        localRecordings.set(
+          filterRecording($localRecordings, e.detail.recording),
         );
       }}
       on:save-recording={(e) => {
@@ -152,13 +157,13 @@
 
   <div class="flex justify-center gap-4 align-center slef-end">
     <RecordingSection
-      {is_enabled_rec_start_btn}
+      isRecording={$isRecording}
       on:click={() => {
         if (!mediaRecorder) return;
-        if (is_enabled_rec_start_btn) {
-          mediaRecorder.start();
-        } else {
+        if ($isRecording) {
           mediaRecorder.stop();
+        } else {
+          mediaRecorder.start();
         }
       }}
     />

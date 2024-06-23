@@ -4,7 +4,6 @@
   import AudioVisualizer from "./AudioVisualizer.svelte";
 
   export let recordings: RecordingType[];
-  let playWithOriginalRecording = false;
 
   const dispatch = createEventDispatcher();
 </script>

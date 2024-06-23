@@ -2,7 +2,7 @@
   import type { FormEventHandler } from "svelte/elements";
   import AudioCanvas from "./AudioCanvas.svelte";
 
-  export let current_phrase: Phrase | undefined;
+  export let currentPhrase: Phrase | undefined;
   export let callbackOnInput: FormEventHandler<HTMLInputElement>;
   export let onPlay;
   export let onPause;
@@ -32,15 +32,15 @@
 </script>
 
 <section class="">
-  {#if current_phrase}
-    <h1 class="text-left">{current_phrase.title}</h1>
-    <p class="mb-4">{current_phrase.description}</p>
+  {#if currentPhrase}
+    <h1 class="text-left">{currentPhrase.title}</h1>
+    <p class="mb-4">{currentPhrase.description}</p>
 
     <div class="flex flex-col">
-      {#if current_phrase.recording}
+      {#if currentPhrase.recording}
         <div bind:clientWidth={containerWidth} class="relative">
           <AudioCanvas
-            recording={current_phrase.recording}
+            recording={currentPhrase.recording}
             w={containerWidth}
             h={150}
           />
@@ -49,7 +49,7 @@
             style="left:{timePos}px"
           ></span>
           <audio
-            src={current_phrase.recording}
+            src={currentPhrase.recording}
             bind:this={audioEl}
             bind:currentTime
             bind:duration
