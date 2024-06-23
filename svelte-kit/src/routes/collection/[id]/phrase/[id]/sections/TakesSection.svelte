@@ -30,7 +30,7 @@
     },
     take: ExtendedTake,
   ) => {
-    // TODO: Fix timebar does not move
+    // TODO: Fix timebar in Takes
     take.currentTime = e.currentTarget.currentTime;
     take.duration = e.currentTarget.duration;
     const percent = take.currentTime / take.duration;
@@ -79,10 +79,10 @@
         </div>
         <div bind:clientWidth={containerWidth} class="relative">
           <AudioCanvas recording={take.recording} w={containerWidth} h={150} />
-          <span
+          <!-- <span
             class="absolute w-[2px] h-[150px] top-0 bg-orange-500"
             style="left:{take.timePos}px"
-          ></span>
+          ></span> -->
 
           <audio
             src={take.recording}
