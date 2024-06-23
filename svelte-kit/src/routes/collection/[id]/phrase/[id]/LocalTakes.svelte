@@ -1,9 +1,6 @@
 <script lang="ts">
+  // TODO: sync play function
   import { createEventDispatcher } from "svelte";
-  /**
-   * Component to show & play local audio files
-   * recorded on the browser
-   */
   import AudioVisualizer from "./AudioVisualizer.svelte";
 
   export let recordings: RecordingType[];
@@ -17,10 +14,10 @@
     <li class="mb-4">
       <div class="flex items-center justify-end">
         <div class="flex">
-          <label class="p-1">
+          <!-- <label class="p-1">
             <input bind:value={playWithOriginalRecording} type="checkbox" />
             Sync play
-          </label>
+          </label> -->
           <button
             on:click={() =>
               dispatch("save-recording", { recording: recording })}
