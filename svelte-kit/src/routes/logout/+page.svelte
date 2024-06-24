@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import auth_store from "$lib/store/auth_store";
+  import authStore from "$lib/store/authStore";
   import LoadingIndicator from "$lib/components/LoadingIndicator.svelte";
 
-  const { logout } = auth_store;
+  const { logout } = authStore;
 
   let isLoading: boolean = false;
   let logoutSuccess: boolean = false;

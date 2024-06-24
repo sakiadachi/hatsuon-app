@@ -1,7 +1,7 @@
 import { fetchApi } from "$lib/utils/fetchApi";
 import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
-import currentPhraseStore from "$lib/store/current_phrase_store";
+import currentPhraseStore from "$lib/store/currentPhraseStore";
 
 export const prerender = false;
 
@@ -15,7 +15,7 @@ export const load: PageLoad = async ({ params }) => {
         return res.json();
       })
       .then((res) => {
-        currentPhraseStore.current_phrase.set(res);
+        currentPhraseStore.currentPhrase.set(res);
       });
 
   const fetchPhraseTakes = () =>
@@ -27,7 +27,7 @@ export const load: PageLoad = async ({ params }) => {
         return res.json();
       })
       .then((res) => {
-        currentPhraseStore.current_takes.set(res.results);
+        currentPhraseStore.curentTakes.set(res.results);
       });
 
   Promise.all([fetchPhrase(), fetchPhraseTakes()]);

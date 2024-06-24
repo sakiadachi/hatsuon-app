@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { v4 as uuid } from "uuid";
-  import current_phease_store from "$lib/store/current_phrase_store";
+  import currentPhraseStore from "$lib/store/currentPhraseStore";
   import useLocalRecordings from "./hooks/useLocalRecordings.ts";
   import PhraseSection from "./sections/PhraseSection.svelte";
   import TakesSection from "./sections/TakesSection.svelte";
@@ -10,13 +10,13 @@
   import useSyncPlay from "./hooks/useSyncPlay";
 
   const {
-    current_phrase,
-    current_takes,
-    phrase_id,
+    currentPhrase,
+    curentTakes,
+    phraseId,
     fetchTakes,
     saveRecordingToPhrase,
     deleteTake,
-  } = current_phease_store;
+  } = currentPhraseStore;
 
   const {
     isRecording,
@@ -84,15 +84,15 @@
   };
 
   const saveLocalRecording = async (r: RecordingType) => {
-    if ($phrase_id == null) {
+    if ($phraseId == null) {
       return;
     }
-    const result = await saveRecording(r, $phrase_id);
+    const result = await saveRecording(r, $phraseId);
     if (!result.ok) {
       alert("Failed to save recording. Please try again.");
       return;
     }
-    await fetchTakes($phrase_id);
+    await fetchTakes($phraseId);
     localRecordings.set(filterRecording($localRecordings, r));
   };
 
@@ -113,31 +113,31 @@
 
 <div class="flex flex-col place-content-between">
   <PhraseSection
-    currentPhrase={$current_phrase}
+    currentPhrase={$currentPhrase}
     {onPlay}
     {onPause}
     {onEnded}
     callbackOnInput={async (e) => {
-      if (e.currentTarget?.files?.[0] == null || $current_phrase == null) {
+      if (e.currentTarget?.files?.[0] == null || $currentPhrase == null) {
         return;
       }
       const result = await saveRecordingToPhrase(
         e.currentTarget.files[0],
-        $current_phrase,
+        $currentPhrase,
       );
       if (result) {
-        current_phrase.set(result);
+        currentPhrase.set(result);
       }
     }}
   />
   <div class="min-h-80 mt-8">
     <h2 class="text-xl">Your Takes</h2>
     <TakesSection
-      currentTakes={$current_takes}
+      currentTakes={$curentTakes}
       syncPlayState={$syncPlayState}
       on:click-delete={(e) => {
         if (e.detail.take.uuid == null) return;
-        deleteTake(e.detail.take.uuid, $phrase_id);
+        deleteTake(e.detail.take.uuid, $phraseId);
       }}
     />
 

@@ -2,14 +2,14 @@
   import { createEventDispatcher } from "svelte";
   export let text: string;
   export let type: "submit" | "reset" | "button" | undefined = "button";
-  export let is_disabled: boolean | undefined = undefined;
+  export let isDisabled: boolean | undefined = undefined;
 
   const dispatch = createEventDispatcher();
 </script>
 
 <button
   {type}
-  disabled={is_disabled}
+  disabled={isDisabled}
   on:click={(e) => {
     dispatch("click", e);
   }}

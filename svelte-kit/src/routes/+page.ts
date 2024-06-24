@@ -1,4 +1,5 @@
 import { fetchApi } from "$lib/utils/fetchApi";
+import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 
 export const prerender = true;
@@ -11,6 +12,8 @@ export const load: PageLoad = async ({}) => {
   if (result.ok) {
     const items = await result.json();
     collections = items.results;
+  } else {
+    error(result.status, result.statusText);
   }
   return {
     collections,

@@ -13,6 +13,6 @@ export default function getCookie(name: string): string | undefined {
   if (!maybeCookie) {
     return undefined;
   }
-  console.log(maybeCookie);
+  console.debug(maybeCookie);
   return decodeURIComponent(maybeCookie.substring(name.length + 1));
 }

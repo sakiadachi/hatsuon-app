@@ -5,14 +5,14 @@ import { derived, writable, type Readable, type Writable } from "svelte/store";
 /**
  * Current Phrase
  */
-const current_phrase: Writable<Phrase | undefined> = writable(undefined);
-const phrase_title: Readable<string> = derived(
-  current_phrase,
-  ($current_phrase) => $current_phrase?.title || "",
+const currentPhrase: Writable<Phrase | undefined> = writable(undefined);
+const phraseTitle: Readable<string> = derived(
+  currentPhrase,
+  ($currentPhrase) => $currentPhrase?.title || "",
 );
-const phrase_id: Readable<string> = derived(
-  current_phrase,
-  ($current_phrase) => $current_phrase?.uuid || "",
+const phraseId: Readable<string> = derived(
+  currentPhrase,
+  ($currentPhrase) => $currentPhrase?.uuid || "",
 );
 
 /**
@@ -46,44 +46,44 @@ const saveRecordingToPhrase = async (
 /**
  * Takes
  */
-const current_takes: Writable<Take[]> = writable([]);
+const curentTakes: Writable<Take[]> = writable([]);
 
 /**
  * Fetch takes with phrase id
- * @param phrase_id
+ * @param phraseId
  * @returns
  */
-const fetchTakes = (phrase_id: string) =>
-  fetchApi(`api/v1/takes/?phrase_uuid=${phrase_id}`)
+const fetchTakes = (phraseId: string) =>
+  fetchApi(`api/v1/takes/?phrase_uuid=${phraseId}`)
     .then((result) => result.json())
     .then((result) => {
-      current_takes.set(result.results);
+      curentTakes.set(result.results);
     })
     .catch((error) => console.error(error));
 
 /**
  * Delete Take
- * @param take_uuid uuid of Take
- * @param phrase_id uuid of Phrase
+ * @param takeUuid uuid of Take
+ * @param phraseId uuid of Phrase
  */
-const deleteTake = async (take_uuid: string, phrase_id: string) => {
-  const result = await fetchApi(`api/v1/takes/${take_uuid}/`, {
+const deleteTake = async (takeUuid: string, phraseId: string) => {
+  const result = await fetchApi(`api/v1/takes/${takeUuid}/`, {
     method: "DELETE",
   });
   if (result.ok) {
-    await fetchTakes(phrase_id);
+    await fetchTakes(phraseId);
   } else {
     error(result.status, result.statusText);
   }
 };
 
 export default {
-  current_phrase,
-  phrase_title,
-  phrase_id,
+  currentPhrase,
+  phraseTitle,
+  phraseId,
   saveRecordingToPhrase,
   // takes
-  current_takes,
+  curentTakes,
   fetchTakes,
   deleteTake,
 };

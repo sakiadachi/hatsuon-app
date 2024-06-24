@@ -9,8 +9,8 @@
   let description: string;
   $: description = "";
 
-  let new_collection: Collection;
-  $: new_collection = {
+  let newCollection: Collection;
+  $: newCollection = {
     title,
     description,
     phrases: [],
@@ -21,7 +21,7 @@
       "api/v1/collections/",
       {
         method: "POST",
-        body: JSON.stringify(new_collection),
+        body: JSON.stringify(newCollection),
       },
       { "Content-Type": "application/json" },
     );

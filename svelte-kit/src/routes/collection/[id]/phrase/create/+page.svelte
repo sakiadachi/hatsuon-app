@@ -1,10 +1,10 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Button from "$lib/components/Button.svelte";
-  import current_data from "$lib/store/current_collection";
+  import currentCollectionStore from "$lib/store/currentCollectionStore";
   import { fetchApi } from "$lib/utils/fetchApi";
 
-  const { current_collection, collection_id } = current_data;
+  const { currentCollection, collectionId } = currentCollectionStore;
 
   let title: string;
   let description: string;
@@ -18,10 +18,10 @@
     const target = event.target as HTMLFormElement;
     const formData = new FormData(target);
 
-    if ($current_collection?.id == null) {
+    if ($currentCollection?.id == null) {
       throw Error("Cannot find collection");
     }
-    formData.append("collection", $current_collection.id);
+    formData.append("collection", $currentCollection.id);
 
     const result = await fetchApi("api/v1/phrases/", {
       method: "POST",
@@ -30,7 +30,7 @@
 
     if (result.ok) {
       const json = (await result.json()) as Phrase;
-      goto(`/collection/${$collection_id}/phrase/${json.uuid}}`);
+      goto(`/collection/${$collectionId}/phrase/${json.uuid}}`);
     }
   };
 </script>

@@ -5,12 +5,12 @@
   import { onMount } from "svelte";
   import { page, navigating } from "$app/stores";
   import Header from "$lib/components/Header.svelte";
-  import auth_store from "$lib/store/auth_store";
+  import authStore from "$lib/store/authStore";
   import LoadingIndicator from "$lib/components/LoadingIndicator.svelte";
   export let data: LayoutData;
   const { loginState } = data;
 
-  const { isLoggedIn } = auth_store;
+  const { isLoggedIn } = authStore;
 
   onMount(() => {
     isLoggedIn.set(loginState);

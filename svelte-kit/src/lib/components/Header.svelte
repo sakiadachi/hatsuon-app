@@ -6,20 +6,20 @@
     type NavItem,
     type RouteName,
   } from "$lib/store/route/data";
-  import current_data from "$lib/store/current_collection";
-  import current_phrase_store from "$lib/store/current_phrase_store";
-  import auth_store from "$lib/store/auth_store";
+  import currentCollectionStore from "$lib/store/currentCollectionStore";
+  import currentPhraseStore from "$lib/store/currentPhraseStore";
+  import authStore from "$lib/store/authStore";
 
   // Selected Collection
   const {
-    current_collection,
-    collection_id,
-    collection_title,
+    currentCollection,
+    collectionId,
+    collectionTitle,
     fetchCurrentCollection,
-  } = current_data;
-  const { phrase_id, phrase_title } = current_phrase_store;
+  } = currentCollectionStore;
+  const { phraseId, phraseTitle } = currentPhraseStore;
 
-  const { isLoggedIn } = auth_store;
+  const { isLoggedIn } = authStore;
 
   let route_id: string | null;
   $: route_id = $page.route.id;
@@ -74,7 +74,7 @@
   };
 
   onMount(() => {
-    if (!$current_collection) {
+    if (!$currentCollection) {
       getCurrentCollection();
     }
   });
@@ -98,7 +98,7 @@
             : undefined}
           class="aria-[current=page]:font-bold"
         >
-          <a href="/collection/{$collection_id}">{$collection_title}</a>
+          <a href="/collection/{$collectionId}">{$collectionTitle}</a>
         </li>
       {/if}
       {#if shown_nav_item.includes("CollectionCreate")}
@@ -118,7 +118,7 @@
             : undefined}
           class="aria-[current=page]:font-bold"
         >
-          <a href="/collection/{$collection_id}/phrase/create">Create Phrase</a>
+          <a href="/collection/{$collectionId}/phrase/create">Create Phrase</a>
         </li>
       {/if}
 
@@ -129,8 +129,8 @@
             : undefined}
           class="aria-[current=page]:font-bold"
         >
-          <a href="/collection/{$collection_id}/phrase/{$phrase_id}"
-            >{$phrase_title}</a
+          <a href="/collection/{$collectionId}/phrase/{$phraseId}"
+            >{$phraseTitle}</a
           >
         </li>
       {/if}
