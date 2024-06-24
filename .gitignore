@@ -181,3 +181,6 @@ staticfiles/
 
 # Django media directory
 /media
+
+# Ignore .DS_Store files
+.DS_Store
