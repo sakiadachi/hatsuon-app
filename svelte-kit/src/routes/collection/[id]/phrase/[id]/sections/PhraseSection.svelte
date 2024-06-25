@@ -3,6 +3,7 @@
   import AudioCanvas from "./AudioCanvas.svelte";
 
   export let currentPhrase: Phrase | undefined;
+  export let recordWithPhrase: boolean;
   export let callbackOnInput: FormEventHandler<HTMLInputElement>;
   export let onPlay;
   export let onPause;
@@ -17,6 +18,11 @@
   let timePos: number;
   $: timePos = 0;
   // TODO: Make reusable state generator
+
+  $: if (recordWithPhrase && audioEl) {
+    // User enabled play phrase while recording
+    audioEl.play();
+  }
 
   const moveCurrentTimeIndicator = (
     e: Event & {

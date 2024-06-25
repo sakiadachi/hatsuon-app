@@ -44,10 +44,10 @@
 
 <div bind:this={container} class="relative">
   <canvas bind:this={canvas} height="150"></canvas>
-  <span
+  <!-- <span
     class="absolute w-[2px] h-[150px] top-0 bg-orange-500"
     style="left:{timePos}px"
-  ></span>
+  ></span> -->
   <audio
     src={audioSrc}
     controls

@@ -2,6 +2,7 @@
   // TODO: sync play function
   import { createEventDispatcher } from "svelte";
   import AudioVisualizer from "./AudioVisualizer.svelte";
+  import { type RecordingType } from "./hooks/useLocalRecordings";
 
   export let recordings: RecordingType[];
 

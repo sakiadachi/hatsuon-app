@@ -9,6 +9,7 @@ export type RecordingType = {
 
 const isRecording = writable(false);
 const localRecordings: Writable<RecordingType[]> = writable([]);
+const recordWithPhrase = writable(false);
 
 const filterRecording = (
   recordings: RecordingType[],
@@ -32,11 +33,13 @@ const saveRecording = (recording: RecordingType, phrase_id: string) => {
 const resetState = () => {
   isRecording.set(false);
   localRecordings.set([]);
+  recordWithPhrase.set(false);
 };
 
 export default {
   isRecording,
   localRecordings,
+  recordWithPhrase,
   filterRecording,
   saveRecording,
   resetState,
