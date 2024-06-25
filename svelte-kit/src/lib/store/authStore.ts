@@ -23,13 +23,13 @@ const login = async (username: string, password: string) => {
     { "Content-Type": "application/json" },
   );
   if (result.ok) {
-    const json = result.json();
     isLoggedIn.set(true);
     goto("/", { replaceState: true });
-    return;
+    return result;
   }
   isLoggedIn.set(false);
   console.error("Login failed");
+  return result;
 };
 
 /**
