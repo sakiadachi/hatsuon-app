@@ -72,8 +72,9 @@
               />
               Sync play
             </label>
-            <button on:click={() => dispatch("click-delete", take)} class="p-1"
-              >🗑️ Delete</button
+            <button
+              on:click={() => dispatch("click-delete", { take })}
+              class="p-1">🗑️ Delete</button
             >
           </div>
         </div>

@@ -13,7 +13,7 @@
     currentPhrase,
     curentTakes,
     phraseId,
-    fetchTakes,
+    fetchTakesWithPhraseUuid,
     saveRecordingToPhrase,
     deleteTake,
   } = currentPhraseStore;
@@ -22,7 +22,7 @@
     isRecording,
     localRecordings,
     filterRecording,
-    saveRecording,
+    saveRecording: saveLocalRecording,
     resetState: resetLocalRecState,
   } = useLocalRecordings;
 
@@ -61,7 +61,7 @@
 
             const uid: string = uuid();
             const blob = new Blob(chunks, { type: "audio/mpeg" });
-            const file = new File([blob], blob.name);
+            const file = new File([blob], uid);
             chunks = [];
             const audio_url = window.URL.createObjectURL(blob);
             localRecordings.set([
@@ -83,16 +83,16 @@
       });
   };
 
-  const saveLocalRecording = async (r: RecordingType) => {
-    if ($phraseId == null) {
+  const onClickSaveLocalRecording = async (r: RecordingType) => {
+    if ($currentPhrase.id == null || $phraseId == null) {
       return;
     }
-    const result = await saveRecording(r, $phraseId);
+    const result = await saveLocalRecording(r, $currentPhrase.id);
     if (!result.ok) {
       alert("Failed to save recording. Please try again.");
       return;
     }
-    await fetchTakes($phraseId);
+    await fetchTakesWithPhraseUuid($phraseId);
     localRecordings.set(filterRecording($localRecordings, r));
   };
 
@@ -150,7 +150,7 @@
         );
       }}
       on:save-recording={(e) => {
-        saveLocalRecording(e.detail.recording);
+        onClickSaveLocalRecording(e.detail.recording);
       }}
     />
   </div>

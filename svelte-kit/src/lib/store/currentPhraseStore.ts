@@ -49,12 +49,12 @@ const saveRecordingToPhrase = async (
 const curentTakes: Writable<Take[]> = writable([]);
 
 /**
- * Fetch takes with phrase id
- * @param phraseId
+ * Fetch takes with phrase uuid
+ * @param phraseUuid
  * @returns
  */
-const fetchTakes = (phraseId: string) =>
-  fetchApi(`api/v1/takes/?phrase_uuid=${phraseId}`)
+const fetchTakesWithPhraseUuid = (phraseUuid: string) =>
+  fetchApi(`api/v1/takes/?phrase_uuid=${phraseUuid}`)
     .then((result) => result.json())
     .then((result) => {
       curentTakes.set(result.results);
@@ -71,7 +71,7 @@ const deleteTake = async (takeUuid: string, phraseId: string) => {
     method: "DELETE",
   });
   if (result.ok) {
-    await fetchTakes(phraseId);
+    await fetchTakesWithPhraseUuid(phraseId);
   } else {
     error(result.status, result.statusText);
   }
@@ -84,6 +84,6 @@ export default {
   saveRecordingToPhrase,
   // takes
   curentTakes,
-  fetchTakes,
+  fetchTakesWithPhraseUuid,
   deleteTake,
 };

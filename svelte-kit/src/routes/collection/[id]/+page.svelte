@@ -1,15 +1,8 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import LinkBtn from "$lib/components/LinkBtn.svelte";
   import currentCollectionStore from "$lib/store/currentCollectionStore";
 
-  export let data;
-  const { collection } = data;
   const { currentCollection } = currentCollectionStore;
-
-  onMount(() => {
-    currentCollection.set(collection);
-  });
 </script>
 
 <svelte:head>

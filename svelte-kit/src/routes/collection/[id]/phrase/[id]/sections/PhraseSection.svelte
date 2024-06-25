@@ -62,11 +62,7 @@
           />
         </div>
       {:else}
-        <input
-          type="file"
-          accept="audio/mp3,audio/wav,audio/m4a"
-          on:input={callbackOnInput}
-        />
+        <input type="file" accept=".wav,.mp3,.m4a" on:input={callbackOnInput} />
       {/if}
     </div>
   {:else}
