@@ -2,10 +2,8 @@
   import authStore from "$lib/store/authStore";
   import Logo from "$lib/components/Logo.svelte";
   import Button from "$lib/components/Button.svelte";
+  import { goto } from "$app/navigation";
 
-  export let data;
-
-  const { loginState } = data;
   const { login } = authStore;
 
   const handleSubmit = async (
@@ -13,12 +11,7 @@
       currentTarget: EventTarget & HTMLFormElement;
     },
   ) => {
-    if (event.target == null) {
-      return;
-    }
-
-    const target = event.target as HTMLFormElement;
-    const formData = new FormData(target);
+    const formData = new FormData(event.currentTarget);
     const username = formData.get("username")?.toString() ?? "";
     const password = formData.get("password")?.toString() ?? "";
 
@@ -35,6 +28,7 @@
 </svelte:head>
 
 <Logo />
+<h1 class="mt-8">Login</h1>
 <form
   on:submit|preventDefault={handleSubmit}
   class="flex flex-col items-center mt-12 gap-4"
@@ -49,3 +43,13 @@
   </label>
   <Button type="submit" text="Login" />
 </form>
+
+<h2 class="mt-16 text-center">You don't have an account?</h2>
+<div class="flex justify-center mt-4">
+  <Button
+    text="Sign up"
+    on:click={() => {
+      goto("/signup");
+    }}
+  />
+</div>

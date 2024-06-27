@@ -50,8 +50,23 @@ const logout = async () => {
   return false;
 };
 
+/**
+ * Sign up a user
+ * @param user
+ */
+const signup = async (user: AuthUser) =>
+  fetchApi(
+    "api-auth/registration/",
+    {
+      method: "POST",
+      body: JSON.stringify(user),
+    },
+    { "Content-Type": "application/json" },
+  );
+
 export default {
   isLoggedIn,
   login,
   logout,
+  signup,
 };
