@@ -49,12 +49,20 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     "rest_framework",
     "rest_framework.authtoken",
-    "dj_rest_auth",
-    "hatsuon_app",
     "corsheaders",
-    'django_cleanup.apps.CleanupConfig',
+    "django_cleanup.apps.CleanupConfig",
+    "dj_rest_auth",
+    # dj_rest_auth registration
+    # https://dj-rest-auth.readthedocs.io/en/latest/installation.html#registration-optional
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "dj_rest_auth.registration",
+    # app
+    "hatsuon_app",
 ]
 
 MIDDLEWARE = [
@@ -64,9 +72,11 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    # "django.contrib.auth.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware"
 ]
 
 ROOT_URLCONF = "hatsuon.urls"
@@ -198,3 +208,9 @@ CORS_ALLOWED_ORIGINS = (
 # MEDIA
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+
+# dj_rest_auth registration
+# https://dj-rest-auth.readthedocs.io/en/latest/installation.html#registration-optional
+SITE_ID = 1
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
