@@ -2,9 +2,10 @@
   import authStore from "$lib/store/authStore";
   import Logo from "$lib/components/Logo.svelte";
   import Button from "$lib/components/Button.svelte";
+  import LoggedInMessage from "$lib/components/LoggedInMessage.svelte";
   import { goto } from "$app/navigation";
 
-  const { login } = authStore;
+  const { isLoggedIn, login } = authStore;
 
   const handleSubmit = async (
     event: SubmitEvent & {
@@ -28,28 +29,31 @@
 </svelte:head>
 
 <Logo />
-<h1 class="mt-8">Login</h1>
-<form
-  on:submit|preventDefault={handleSubmit}
-  class="flex flex-col items-center mt-12 gap-4"
->
-  <label class="flex justify-between w-full max-w-96">
-    <span class="mr-4">User Name:</span>
-    <input type="text" name="username" class="w-64 border" />
-  </label>
-  <label class="flex justify-between w-full max-w-96 mb-8">
-    <span class="mr-4">Password:</span>
-    <input type="password" name="password" class="w-64 border" />
-  </label>
-  <Button type="submit" text="Login" />
-</form>
+<h1 class="my-8">Login</h1>
+{#if $isLoggedIn}
+  <LoggedInMessage />
+{:else}<form
+    on:submit|preventDefault={handleSubmit}
+    class="flex flex-col items-center gap-4"
+  >
+    <label class="flex justify-between w-full max-w-96">
+      <span class="mr-4">User Name:</span>
+      <input type="text" name="username" class="w-64 border" />
+    </label>
+    <label class="flex justify-between w-full max-w-96 mb-8">
+      <span class="mr-4">Password:</span>
+      <input type="password" name="password" class="w-64 border" />
+    </label>
+    <Button type="submit" text="Login" />
+  </form>
 
-<h2 class="mt-16 text-center">You don't have an account?</h2>
-<div class="flex justify-center mt-4">
-  <Button
-    text="Sign up"
-    on:click={() => {
-      goto("/signup");
-    }}
-  />
-</div>
+  <h2 class="mt-16 text-center">You don't have an account?</h2>
+  <div class="flex justify-center mt-4">
+    <Button
+      text="Sign up"
+      on:click={() => {
+        goto("/signup");
+      }}
+    />
+  </div>
+{/if}

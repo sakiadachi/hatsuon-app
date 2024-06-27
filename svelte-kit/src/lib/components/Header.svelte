@@ -40,12 +40,6 @@
     } else {
       current_route = nav_item;
       switch (nav_item.name) {
-        case "Login":
-          shown_nav_item = [];
-          break;
-        case "Logout":
-          shown_nav_item = [];
-          break;
         case "Home":
           shown_nav_item = ["Home"];
           break;
@@ -60,6 +54,9 @@
           break;
         case "PhraseDetail":
           shown_nav_item = ["Home", "CollectionDetail", "PhraseDetail"];
+          break;
+        default:
+          shown_nav_item = [];
       }
     }
   }
