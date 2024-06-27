@@ -10,6 +10,12 @@ Upload the phrase that you want to practice, and compare with your recordings!
 
 ![Screentshot of hatsu-oh! app phrase detail page.](/assets/hatsuon_app_screen_shot.png)
 
+## TODO
+
+- [ ] CRUD: Deleting Models (Collection, Phrase, Take) from FE
+- [ ] CRUD: Updating Models (Collection, Phrase, Take) from FE
+- [ ] Propery show detailed error messages, especially in login page
+
 # Requirements
 
 - [PostgreSQL](https://www.postgresql.org/download/)
