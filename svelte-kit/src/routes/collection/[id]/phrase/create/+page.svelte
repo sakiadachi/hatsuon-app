@@ -21,7 +21,7 @@
     if ($currentCollection?.id == null) {
       throw Error("Cannot find collection");
     }
-    formData.append("collection", $currentCollection.id);
+    formData.append("collection", $currentCollection.id.toString());
 
     const result = await fetchApi("api/v1/phrases/", {
       method: "POST",

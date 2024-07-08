@@ -1,36 +1,58 @@
 /**
- * Collection
- */
-type Collection = {
-  title: string;
-  description?: string;
-  phrases: Phrase[];
-  created_date?: number;
-  created_by?: string;
-  id?: string;
-  uuid?: string;
+ * Mapped Collection Type
+ * https://www.typescriptlang.org/docs/handbook/2/mapped-types.html
+ **/
+type MappedCollection<Type> = {
+  [Property in keyof Type]?: Type[Property];
 };
 
 /**
+ * Common Type in API Response
+ */
+type CommonModelType = {
+  created_date: number;
+  created_by: string;
+  id: number;
+  uuid: string;
+};
+
+/**
+ * Collection
+ * For Reading in CRUD
+ */
+type Collection = {
+  title: string;
+  description: string;
+  phrases: Phrase[];
+} & CommonModelType;
+/**
+ * Collection
+ * For Creating, Updating in CRUD
+ */
+type EditCollectionType = MappedCollection<Collection>;
+
+/**
  * Phrase
+ * For Reading in CRUD
  */
 type Phrase = {
   title: string;
-  description?: string;
+  description: string;
   /**
    * original recording file id
    */
-  recording?: string;
+  recording: string | null;
   takes?: string[];
   /**
    * collection's id
    */
-  collection?: string;
-  created_date?: number;
-  created_by?: string;
-  id?: string;
-  uuid?: string;
-};
+  collection: number;
+} & CommonModelType;
+/**
+ * Phrase
+ * For Creating, Updating in CRUD
+ */
+type EditPhraseType = MappedCollection<Phrase>;
 
 /**
  * Take
@@ -40,8 +62,9 @@ type Take = {
   recording?: string;
   point: number;
   phrase: string;
-  created_date?: number;
-  created_by?: string;
-  id?: string;
-  uuid?: string;
-};
+} & CommonModelType;
+/**
+ * Take
+ * For Creating, Updating in CRUD
+ */
+type EditTakeType = MappedCollection<Take>;

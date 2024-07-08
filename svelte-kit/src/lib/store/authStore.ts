@@ -64,9 +64,18 @@ const signup = async (user: AuthUser) =>
     { "Content-Type": "application/json" },
   );
 
+/**
+ * Reset Store states
+ * Edit here when adding a state
+ */
+const resetStore = () => {
+  isLoggedIn.set(false);
+};
+
 export default {
   isLoggedIn,
   login,
   logout,
   signup,
+  resetStore,
 };

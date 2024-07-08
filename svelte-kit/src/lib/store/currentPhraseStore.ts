@@ -46,7 +46,7 @@ const saveRecordingToPhrase = async (
 /**
  * Takes
  */
-const curentTakes: Writable<Take[]> = writable([]);
+const currentTakes: Writable<Take[]> = writable([]);
 
 /**
  * Fetch takes with phrase uuid
@@ -57,7 +57,7 @@ const fetchTakesWithPhraseUuid = (phraseUuid: string) =>
   fetchApi(`api/v1/takes/?phrase_uuid=${phraseUuid}`)
     .then((result) => result.json())
     .then((result) => {
-      curentTakes.set(result.results);
+      currentTakes.set(result.results);
     })
     .catch((error) => console.error(error));
 
@@ -77,13 +77,23 @@ const deleteTake = async (takeUuid: string, phraseId: string) => {
   }
 };
 
+/**
+ * Reset Store states
+ * Edit here when adding a state
+ */
+const resetStore = () => {
+  currentPhrase.set(undefined);
+  currentTakes.set([]);
+};
+
 export default {
   currentPhrase,
   phraseTitle,
   phraseId,
   saveRecordingToPhrase,
   // takes
-  curentTakes,
+  currentTakes,
   fetchTakesWithPhraseUuid,
   deleteTake,
+  resetStore,
 };

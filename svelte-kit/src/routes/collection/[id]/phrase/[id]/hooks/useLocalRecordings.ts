@@ -19,10 +19,10 @@ const filterRecording = (
 /**
  * Save local recording to database as Take
  */
-const saveRecording = (recording: RecordingType, phrase_id: string) => {
+const saveRecording = (recording: RecordingType, phrase_id: number) => {
   const formData = new FormData();
   formData.append("recording", recording.file);
-  formData.append("phrase", phrase_id);
+  formData.append("phrase", phrase_id.toString());
 
   return fetchApi(`api/v1/takes/`, {
     method: "POST",

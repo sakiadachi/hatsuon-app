@@ -8,15 +8,20 @@
 
   let description: string;
   $: description = "";
-
-  let newCollection: Collection;
-  $: newCollection = {
-    title,
-    description,
-    phrases: [],
-  };
+  $: trimmedDescription = description.trim();
 
   const add_collection = async () => {
+    let newCollection = {
+      title,
+    } as EditCollectionType;
+
+    if (trimmedDescription.length > 0) {
+      newCollection = {
+        ...newCollection,
+        description: trimmedDescription,
+      };
+    }
+
     const result = await fetchApi(
       "api/v1/collections/",
       {

@@ -2,14 +2,19 @@
   import { onMount } from "svelte";
   import authStore from "$lib/store/authStore";
   import LoadingIndicator from "$lib/components/LoadingIndicator.svelte";
+  import storeController from "$lib/store/storeController";
 
   const { logout } = authStore;
+  const { resetStores } = storeController;
 
   let isLoading: boolean = false;
   let logoutSuccess: boolean = false;
 
   onMount(async () => {
     isLoading = true;
+    // Reset stores before logout
+    // Ignore the case failing logout request
+    resetStores();
     logoutSuccess = await logout();
     isLoading = false;
   });

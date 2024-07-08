@@ -26,10 +26,18 @@ const fetchCurrentCollection = async (uuid: string) => {
   }
 };
 
+/**
+ * Reset Store states
+ * Edit here when adding a state
+ */
+const resetStore = () => {
+  currentCollection.set(undefined);
+};
+
 export default {
-  // collection
   currentCollection,
   collectionId,
   collectionTitle,
   fetchCurrentCollection,
+  resetStore,
 };

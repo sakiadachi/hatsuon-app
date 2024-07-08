@@ -13,7 +13,7 @@
 
   const {
     currentPhrase,
-    curentTakes,
+    currentTakes,
     phraseId,
     fetchTakesWithPhraseUuid,
     saveRecordingToPhrase,
@@ -137,7 +137,7 @@
   <div class="min-h-80 mt-8">
     <h2 class="text-xl">Your Takes</h2>
     <TakesSection
-      currentTakes={$curentTakes}
+      currentTakes={$currentTakes}
       syncPlayState={$syncPlayState}
       on:click-delete={(e) => {
         if (e.detail.take.uuid == null) return;
