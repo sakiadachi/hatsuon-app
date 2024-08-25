@@ -60,7 +60,7 @@
 
 {#if $extendedTakes.length > 0}
   <ul class="list-inside">
-    {#each $extendedTakes as take, i}
+    {#each $extendedTakes as take (take.uuid)}
       <li class="mb-4">
         <div class="flex items-center justify-end">
           <div class="flex">

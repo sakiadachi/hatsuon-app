@@ -10,7 +10,7 @@
 </script>
 
 <ul class="list-inside">
-  {#each recordings as recording}
+  {#each recordings as recording (recording.uuid)}
     <li class="mb-4">
       <div class="flex items-center justify-end">
         <div class="flex">

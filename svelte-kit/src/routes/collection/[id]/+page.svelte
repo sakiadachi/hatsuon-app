@@ -20,7 +20,7 @@
     <h3 class="text-lg mb-2">Phrases</h3>
     {#if $currentCollection.phrases.length > 0}
       <ul class="mb-10">
-        {#each $currentCollection.phrases as phrase}
+        {#each $currentCollection.phrases as phrase (phrase.uuid)}
           <li>
             <a
               href="/collection/{$currentCollection.uuid}/phrase/{phrase.uuid}"
