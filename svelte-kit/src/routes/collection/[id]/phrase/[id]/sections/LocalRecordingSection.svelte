@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { type RecordingType } from "../hooks/useLocalRecordings";
-  import LocalTakes from "../LocalTakes.svelte";
+import type { RecordingType } from "../hooks/useLocalRecordings";
+import LocalTakes from "../LocalTakes.svelte";
 
-  export let recordings: RecordingType[];
+export let recordings: RecordingType[];
 </script>
 
 {#if recordings.length > 0}

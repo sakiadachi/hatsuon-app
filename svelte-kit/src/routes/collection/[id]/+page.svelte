@@ -1,8 +1,8 @@
 <script lang="ts">
-  import LinkBtn from "$lib/components/LinkBtn.svelte";
-  import currentCollectionStore from "$lib/store/currentCollectionStore";
+import LinkBtn from "$lib/components/LinkBtn.svelte";
+import currentCollectionStore from "$lib/store/currentCollectionStore";
 
-  const { currentCollection } = currentCollectionStore;
+const { currentCollection } = currentCollectionStore;
 </script>
 
 <svelte:head>

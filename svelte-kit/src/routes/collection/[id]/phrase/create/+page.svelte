@@ -1,38 +1,38 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-  import Button from "$lib/components/Button.svelte";
-  import currentCollectionStore from "$lib/store/currentCollectionStore";
-  import { fetchApi } from "$lib/utils/fetchApi";
+import { goto } from "$app/navigation";
+import Button from "$lib/components/Button.svelte";
+import currentCollectionStore from "$lib/store/currentCollectionStore";
+import { fetchApi } from "$lib/utils/fetchApi";
 
-  const { currentCollection, collectionId } = currentCollectionStore;
+const { currentCollection, collectionId } = currentCollectionStore;
 
-  let title: string;
-  let description: string;
-  let recording: File | undefined;
+let title: string;
+let description: string;
+let recording: File | undefined;
 
-  const handleSubmit = async (
-    event: SubmitEvent & {
-      currentTarget: EventTarget & HTMLFormElement;
-    },
-  ) => {
-    const target = event.target as HTMLFormElement;
-    const formData = new FormData(target);
+const handleSubmit = async (
+  event: SubmitEvent & {
+    currentTarget: EventTarget & HTMLFormElement;
+  },
+) => {
+  const target = event.target as HTMLFormElement;
+  const formData = new FormData(target);
 
-    if ($currentCollection?.id == null) {
-      throw Error("Cannot find collection");
-    }
-    formData.append("collection", $currentCollection.id.toString());
+  if ($currentCollection?.id == null) {
+    throw Error("Cannot find collection");
+  }
+  formData.append("collection", $currentCollection.id.toString());
 
-    const result = await fetchApi("api/v1/phrases/", {
-      method: "POST",
-      body: formData,
-    });
+  const result = await fetchApi("api/v1/phrases/", {
+    method: "POST",
+    body: formData,
+  });
 
-    if (result.ok) {
-      const json = (await result.json()) as Phrase;
-      goto(`/collection/${$collectionId}/phrase/${json.uuid}}`);
-    }
-  };
+  if (result.ok) {
+    const json = (await result.json()) as Phrase;
+    goto(`/collection/${$collectionId}/phrase/${json.uuid}}`);
+  }
+};
 </script>
 
 <div class="h-full">

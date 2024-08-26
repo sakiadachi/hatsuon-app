@@ -1,12 +1,12 @@
 <script lang="ts">
-  // TODO: sync play function
-  import { createEventDispatcher } from "svelte";
-  import AudioVisualizer from "./AudioVisualizer.svelte";
-  import { type RecordingType } from "./hooks/useLocalRecordings";
+// TODO: sync play function
+import { createEventDispatcher } from "svelte";
+import AudioVisualizer from "./AudioVisualizer.svelte";
+import type { RecordingType } from "./hooks/useLocalRecordings";
 
-  export let recordings: RecordingType[];
+export let recordings: RecordingType[];
 
-  const dispatch = createEventDispatcher();
+const dispatch = createEventDispatcher();
 </script>
 
 <ul class="list-inside">

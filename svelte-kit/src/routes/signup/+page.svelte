@@ -1,40 +1,40 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-  import Button from "$lib/components/Button.svelte";
-  import Logo from "$lib/components/Logo.svelte";
-  import LoggedInMessage from "$lib/components/LoggedInMessage.svelte";
-  import authStore from "$lib/store/authStore";
+import { goto } from "$app/navigation";
+import Button from "$lib/components/Button.svelte";
+import Logo from "$lib/components/Logo.svelte";
+import LoggedInMessage from "$lib/components/LoggedInMessage.svelte";
+import authStore from "$lib/store/authStore";
 
-  let errorMessages: Record<string, string[]> = {};
+let errorMessages: Record<string, string[]> = {};
 
-  const { isLoggedIn, signup } = authStore;
+const { isLoggedIn, signup } = authStore;
 
-  const handleSubmit = async (
-    event: SubmitEvent & {
-      currentTarget: EventTarget & HTMLFormElement;
-    },
-  ) => {
-    errorMessages = {};
+const handleSubmit = async (
+  event: SubmitEvent & {
+    currentTarget: EventTarget & HTMLFormElement;
+  },
+) => {
+  errorMessages = {};
 
-    const formData = new FormData(event.currentTarget);
+  const formData = new FormData(event.currentTarget);
 
-    const authUser = {
-      username: formData.get("username")?.toString() ?? "",
-      email: formData.get("email")?.toString() ?? "",
-      password1: formData.get("password1")?.toString() ?? "",
-      password2: formData.get("password2")?.toString() ?? "",
-    } as AuthUser;
+  const authUser = {
+    username: formData.get("username")?.toString() ?? "",
+    email: formData.get("email")?.toString() ?? "",
+    password1: formData.get("password1")?.toString() ?? "",
+    password2: formData.get("password2")?.toString() ?? "",
+  } as AuthUser;
 
-    const result = await signup(authUser);
-    if (!result.ok) {
-      isLoggedIn.set(false);
-      const msgs = await result.json();
-      errorMessages = msgs;
-    } else {
-      isLoggedIn.set(true);
-      goto("/", { replaceState: true });
-    }
-  };
+  const result = await signup(authUser);
+  if (!result.ok) {
+    isLoggedIn.set(false);
+    const msgs = await result.json();
+    errorMessages = msgs;
+  } else {
+    isLoggedIn.set(true);
+    goto("/", { replaceState: true });
+  }
+};
 </script>
 
 <svelte:head>

@@ -1,26 +1,26 @@
 <script lang="ts">
-  import authStore from "$lib/store/authStore";
-  import Logo from "$lib/components/Logo.svelte";
-  import Button from "$lib/components/Button.svelte";
-  import LoggedInMessage from "$lib/components/LoggedInMessage.svelte";
-  import { goto } from "$app/navigation";
+import authStore from "$lib/store/authStore";
+import Logo from "$lib/components/Logo.svelte";
+import Button from "$lib/components/Button.svelte";
+import LoggedInMessage from "$lib/components/LoggedInMessage.svelte";
+import { goto } from "$app/navigation";
 
-  const { isLoggedIn, login } = authStore;
+const { isLoggedIn, login } = authStore;
 
-  const handleSubmit = async (
-    event: SubmitEvent & {
-      currentTarget: EventTarget & HTMLFormElement;
-    },
-  ) => {
-    const formData = new FormData(event.currentTarget);
-    const username = formData.get("username")?.toString() ?? "";
-    const password = formData.get("password")?.toString() ?? "";
+const handleSubmit = async (
+  event: SubmitEvent & {
+    currentTarget: EventTarget & HTMLFormElement;
+  },
+) => {
+  const formData = new FormData(event.currentTarget);
+  const username = formData.get("username")?.toString() ?? "";
+  const password = formData.get("password")?.toString() ?? "";
 
-    const result = await login(username, password);
-    if (!result.ok) {
-      alert("Login failed. Please try again.");
-    }
-  };
+  const result = await login(username, password);
+  if (!result.ok) {
+    alert("Login failed. Please try again.");
+  }
+};
 </script>
 
 <svelte:head>

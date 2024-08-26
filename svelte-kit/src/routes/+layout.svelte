@@ -1,23 +1,23 @@
 <script lang="ts">
-  import "../app.css";
-  import { goto } from "$app/navigation";
-  import type { LayoutData } from "./$types";
-  import { onMount } from "svelte";
-  import { page, navigating } from "$app/stores";
-  import Header from "$lib/components/Header.svelte";
-  import authStore from "$lib/store/authStore";
-  import LoadingIndicator from "$lib/components/LoadingIndicator.svelte";
-  export let data: LayoutData;
-  const { loginState } = data;
+import "../app.css";
+import { goto } from "$app/navigation";
+import type { LayoutData } from "./$types";
+import { onMount } from "svelte";
+import { page, navigating } from "$app/stores";
+import Header from "$lib/components/Header.svelte";
+import authStore from "$lib/store/authStore";
+import LoadingIndicator from "$lib/components/LoadingIndicator.svelte";
+export let data: LayoutData;
+const { loginState } = data;
 
-  const { isLoggedIn } = authStore;
+const { isLoggedIn } = authStore;
 
-  onMount(() => {
-    isLoggedIn.set(loginState);
-    if (!loginState) {
-      goto("/login", { replaceState: true });
-    }
-  });
+onMount(() => {
+  isLoggedIn.set(loginState);
+  if (!loginState) {
+    goto("/login", { replaceState: true });
+  }
+});
 </script>
 
 <div class="app flex flex-col min-h-screen">

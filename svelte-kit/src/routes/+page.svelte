@@ -1,9 +1,12 @@
 <script lang="ts">
-  import LinkBtn from "$lib/components/LinkBtn.svelte";
-  import CollectionList from "./CollectionList.svelte";
+import LinkBtn from "$lib/components/LinkBtn.svelte";
+import CollectionList from "./CollectionList.svelte";
 
-  export let data;
-  const { collections } = data;
+export let data: {
+  loginState: boolean;
+  collections: Collection[];
+};
+const { collections } = data;
 </script>
 
 <svelte:head>

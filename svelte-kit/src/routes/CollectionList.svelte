@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let collections: Collection[];
+export let collections: Collection[];
 </script>
 
 <ul class="w-full">
