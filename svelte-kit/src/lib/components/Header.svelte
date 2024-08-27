@@ -79,7 +79,7 @@ onMount(() => {
       {#if shown_nav_item.includes("Home")}
         <li
           aria-current={current_route.name === "Home" ? "page" : undefined}
-          class="aria-[current=page]:font-bold"
+          class="aria-[current=page]:font-bold shrink-0"
         >
           <a href="/">Home</a>
         </li>
@@ -89,7 +89,7 @@ onMount(() => {
           aria-current={current_route.name === "CollectionDetail"
             ? "page"
             : undefined}
-          class="aria-[current=page]:font-bold"
+          class="aria-[current=page]:font-bold truncate shrink"
         >
           <a href="/collection/{$collectionId}">{$collectionTitle}</a>
         </li>
@@ -99,7 +99,7 @@ onMount(() => {
           aria-current={current_route.name === "CollectionCreate"
             ? "page"
             : undefined}
-          class="aria-[current=page]:font-bold"
+          class="aria-[current=page]:font-bold shrink-0"
         >
           <a href="/collection/create">Create Collection</a>
         </li>
@@ -109,7 +109,7 @@ onMount(() => {
           aria-current={current_route.name === "PhraseCreate"
             ? "page"
             : undefined}
-          class="aria-[current=page]:font-bold"
+          class="aria-[current=page]:font-bold shrink-0"
         >
           <a href="/collection/{$collectionId}/phrase/create">Create Phrase</a>
         </li>
@@ -120,7 +120,7 @@ onMount(() => {
           aria-current={current_route.name === "PhraseDetail"
             ? "page"
             : undefined}
-          class="aria-[current=page]:font-bold"
+          class="aria-[current=page]:font-bold truncate shrink"
         >
           <a href="/collection/{$collectionId}/phrase/{$phraseId}"
             >{$phraseTitle}</a
@@ -133,14 +133,14 @@ onMount(() => {
       {#if $isLoggedIn}
         <li
           aria-current={current_route.name === "Logout" ? "page" : undefined}
-          class="aria-[current=page]:font-bold"
+          class="aria-[current=page]:font-bold shrink-0"
         >
           <a href="/logout">Log out</a>
         </li>
       {:else}
         <li
           aria-current={current_route.name === "Login" ? "page" : undefined}
-          class="aria-[current=page]:font-bold"
+          class="aria-[current=page]:font-bold shrink-0"
         >
           <a href="/login">Login</a>
         </li>

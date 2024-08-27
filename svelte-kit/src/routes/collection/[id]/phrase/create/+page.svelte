@@ -39,7 +39,7 @@ const handleSubmit = async (
   <form on:submit|preventDefault={handleSubmit} enctype="multipart/form-data">
     <fieldset class="flex flex-col gap-6">
       <legend class="d-flex justify-center w-full"
-        ><h1 class="mb-12">Add phrase</h1></legend
+        ><h1 class="mb-12">Add Phrase</h1></legend
       >
       <div class="grid grid-cols-[10rem_1fr] grid-rows-1 gap-4">
         <label for="phrase-title" class="">Title:</label>

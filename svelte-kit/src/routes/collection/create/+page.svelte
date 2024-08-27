@@ -41,7 +41,7 @@ const add_collection = async () => {
   <form on:submit|preventDefault={add_collection} id="create-new-item-form">
     <fieldset class="flex flex-col gap-6">
       <legend class="d-flex justify-center w-full"
-        ><h1 class="mb-12">Create Collection</h1></legend
+        ><h1 class="mb-12">Add Collection</h1></legend
       >
       <div class="grid grid-cols-[10rem_1fr] grid-rows-1 gap-4">
         <label for="collection-title" class="">Title:</label>

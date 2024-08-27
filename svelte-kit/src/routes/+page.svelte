@@ -15,10 +15,11 @@ const { collections } = data;
 </svelte:head>
 
 <section>
+  <h1>Collections</h1>
   {#if collections.length}
     <CollectionList {collections} />
   {/if}
   <div class="flex justify-end mt-10">
-    <LinkBtn text="Add" href="/collection/create" />
+    <LinkBtn text="Add Collection" href="/collection/create" />
   </div>
 </section>
