@@ -23,7 +23,7 @@ const phraseId: Readable<string> = derived(
 const saveRecordingToPhrase = async (
   recording: File,
   phrase: Phrase,
-): Promise<Phrase | void> => {
+): Promise<Phrase | undefined> => {
   const formData = new FormData();
 
   Object.entries(phrase).forEach(([key, value], index) => {
@@ -38,9 +38,8 @@ const saveRecordingToPhrase = async (
   });
   if (result.ok) {
     return await result.json();
-  } else {
-    error(result.status, result.statusText);
   }
+  error(result.status, result.statusText);
 };
 
 /**

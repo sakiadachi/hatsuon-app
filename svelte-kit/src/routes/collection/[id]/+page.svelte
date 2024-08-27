@@ -1,8 +1,8 @@
 <script lang="ts">
-  import LinkBtn from "$lib/components/LinkBtn.svelte";
-  import currentCollectionStore from "$lib/store/currentCollectionStore";
+import LinkBtn from "$lib/components/LinkBtn.svelte";
+import currentCollectionStore from "$lib/store/currentCollectionStore";
 
-  const { currentCollection } = currentCollectionStore;
+const { currentCollection } = currentCollectionStore;
 </script>
 
 <svelte:head>
@@ -12,15 +12,13 @@
 
 <div>
   {#if $currentCollection}
-    <h1 class="text-left">{$currentCollection.title}</h1>
-    <h2 class="mb-8">
-      {$currentCollection.description}
-    </h2>
+    <h1 class="text-left">Collection: {$currentCollection.title}</h1>
+    <p class="mb-8">{$currentCollection.description}</p>
 
-    <h3 class="text-lg mb-2">Phrases</h3>
+    <h4 class="text-lg mb-2">Phrases</h4>
     {#if $currentCollection.phrases.length > 0}
       <ul class="mb-10">
-        {#each $currentCollection.phrases as phrase}
+        {#each $currentCollection.phrases as phrase (phrase.uuid)}
           <li>
             <a
               href="/collection/{$currentCollection.uuid}/phrase/{phrase.uuid}"
@@ -35,7 +33,7 @@
 
     <div class="flex justify-end">
       <LinkBtn
-        text="Add"
+        text="Add Phrase"
         href="/collection/{$currentCollection.uuid}/phrase/create"
       />
     </div>

@@ -5,7 +5,7 @@ import type { PageLoad } from "./$types";
 export const prerender = true;
 export const ssr = false;
 
-export const load: PageLoad = async ({}) => {
+export const load: PageLoad = async () => {
   let collections: Collection[] = [];
 
   const result = await fetchApi("api/v1/collections/");

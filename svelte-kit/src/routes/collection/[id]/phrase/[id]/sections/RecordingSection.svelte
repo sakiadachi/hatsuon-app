@@ -1,25 +1,38 @@
 <script lang="ts">
-  import type { ChangeEventHandler } from "svelte/elements";
+import type { ChangeEventHandler } from "svelte/elements";
+import { createEventDispatcher } from "svelte";
+import RecordingButton from "../components/RecordingButton.svelte";
 
-  export let isRecording: boolean;
-  /**
-   * Weather play phrase audio when recording.
-   */
-  export let playingWithOriginalRec: boolean;
-  export let callbackOnChange: ChangeEventHandler<HTMLInputElement>;
+export let isRecording: boolean;
+/**
+ * Weather play phrase audio when recording.
+ */
+export let playingWithOriginalRec: boolean;
+export let callbackOnChange: ChangeEventHandler<HTMLInputElement>;
+
+const dispatch = createEventDispatcher();
 </script>
 
-<button
-  title="{isRecording ? 'Stop' : 'Start'} Recording"
-  class="flex justify-center align-center w-14 h-14 rounded-full border-2 border-red-600 hover:opacity-60 mx-auto"
-  on:click
->
-  {#if isRecording}
-    <span class="flex w-6 h-6 bg-red-600 rounded-sm self-center"></span>
-  {:else}
-    <span class="flex bg-red-600 rounded-full w-10 h-10 self-center"></span>
-  {/if}
-</button>
+{#if isRecording}
+  <RecordingButton
+    title="Stop Recording"
+    classStr="text-rose-500"
+    text="Stop"
+    on:click={() => {
+      dispatch("stop-recording");
+    }}
+  />
+{:else}
+  <RecordingButton
+    title="Start Recording"
+    classStr="bg-rose-500  text-white"
+    text="Rec"
+    on:click={() => {
+      dispatch("start-recording");
+    }}
+  />
+{/if}
+
 <label class="mx-auto">
   <input
     type="checkbox"

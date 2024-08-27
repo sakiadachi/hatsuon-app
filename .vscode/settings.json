@@ -1,11 +1,8 @@
 {
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.pylint",
-    "editor.formatOnSave": true,
-  },
-  "[svelte]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode"
-  }
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": false,
+	"[svelte]": {
+		"editor.defaultFormatter": "svelte.svelte-vscode"
+	},
+	"editor.defaultFormatter": "biomejs.biome"
 }

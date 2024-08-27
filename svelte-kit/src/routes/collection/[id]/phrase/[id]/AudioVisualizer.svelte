@@ -1,45 +1,45 @@
 <script lang="ts">
-  import { visualizeAudio } from "./hooks/useAudioVisualizer";
-  export let audioSrc: string;
+import { visualizeAudio } from "./hooks/useAudioVisualizer";
+export let audioSrc: string;
 
-  let container: HTMLDivElement | undefined;
-  let containerWidth: number;
-  let canvas: HTMLCanvasElement | undefined;
+let container: HTMLDivElement | undefined;
+let containerWidth: number;
+let canvas: HTMLCanvasElement | undefined;
 
-  let timePos: number;
-  $: timePos = 0;
-  let audioDuration: number | undefined;
-  $: {
-    if (canvas === undefined) {
-      console.debug("canvas was undefined");
-    } else {
-      visualizeAudio(canvas, audioSrc).then(
-        (r) => (audioDuration = r.audioDuration),
-      );
-    }
+let timePos: number;
+$: timePos = 0;
+let audioDuration: number | undefined;
+$: {
+  if (canvas === undefined) {
+    console.debug("canvas was undefined");
+  } else {
+    visualizeAudio(canvas, audioSrc).then((r) => {
+      audioDuration = r.audioDuration;
+    });
   }
-  $: {
-    if (container === undefined || canvas === undefined) {
-      console.debug("container was undefined");
-    } else {
-      containerWidth = container.clientWidth;
-      canvas.width = containerWidth;
-    }
+}
+$: {
+  if (container === undefined || canvas === undefined) {
+    console.debug("container was undefined");
+  } else {
+    containerWidth = container.clientWidth;
+    canvas.width = containerWidth;
   }
+}
 
-  const moveCurrentTimeIndicator = (
-    e: Event & {
-      currentTarget: EventTarget & HTMLAudioElement;
-    },
-  ) => {
-    if (audioDuration === undefined) {
-      throw new Error("Expected audioDuration");
-    }
-    // @ts-ignore-next-line
-    const currentTime = e?.target?.currentTime || 0;
-    const percent = currentTime / audioDuration;
-    timePos = Math.floor(containerWidth * percent);
-  };
+const moveCurrentTimeIndicator = (
+  e: Event & {
+    currentTarget: EventTarget & HTMLAudioElement;
+  },
+) => {
+  if (audioDuration === undefined) {
+    throw new Error("Expected audioDuration");
+  }
+  // @ts-ignore-next-line
+  const currentTime = e?.target?.currentTime || 0;
+  const percent = currentTime / audioDuration;
+  timePos = Math.floor(containerWidth * percent);
+};
 </script>
 
 <div bind:this={container} class="relative">

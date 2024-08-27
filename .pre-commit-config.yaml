@@ -1,0 +1,7 @@
+repos:
+-   repo: local
+    hooks:
+    -   id: format-frontend
+        name: Format Frontend codes
+        entry: bash -c 'cd svelte-kit && exec npm run format'
+        language: node

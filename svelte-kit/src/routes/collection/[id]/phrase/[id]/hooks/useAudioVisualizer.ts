@@ -39,11 +39,11 @@ const _visualize = (
   /**
    * Width of a bar
    */
-  barWidth: number = 4,
+  barWidth = 4,
   /**
    * Gap between bars
    */
-  gap: number = 1,
+  gap = 1,
 ) => {
   const float32Array = audioBuffer.getChannelData(0);
   if (!canvasContext) {

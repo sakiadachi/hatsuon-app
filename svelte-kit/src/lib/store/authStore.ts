@@ -12,7 +12,7 @@ const isLoggedIn = writable(false);
  */
 const login = async (username: string, password: string) => {
   const result = await fetchApi(
-    `api-auth/login/`,
+    "api-auth/login/",
     {
       method: "POST",
       body: JSON.stringify({

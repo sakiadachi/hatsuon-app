@@ -1,66 +1,72 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  import AudioCanvas from "./AudioCanvas.svelte";
-  import type { ExtendedTake, SyncPlayState } from "../hooks/useSyncPlay";
-  import useSyncPlay from "../hooks/useSyncPlay";
+import { createEventDispatcher } from "svelte";
+import AudioCanvas from "./AudioCanvas.svelte";
+import type { ExtendedTake, SyncPlayState } from "../hooks/useSyncPlay";
+import useSyncPlay from "../hooks/useSyncPlay";
 
-  export let currentTakes: Take[];
-  export let syncPlayState: SyncPlayState;
+export let currentTakes: Take[];
+export let syncPlayState: SyncPlayState;
 
-  let syncPlayList: HTMLAudioElement[];
-  $: syncPlayList = [];
+let syncPlayList: HTMLAudioElement[];
+$: syncPlayList = [];
 
-  let containerWidth: number;
-  const { extendedTakes } = useSyncPlay;
+let containerWidth: number;
+const { extendedTakes } = useSyncPlay;
 
-  $: if (syncPlayState && syncPlayList.length) {
-    console.debug(syncPlayState, syncPlayList);
-    if (syncPlayState.play) {
-      syncPlayList.forEach((audioNode: HTMLAudioElement) => audioNode.play());
-    } else if (syncPlayState.paused) {
-      syncPlayList.forEach((audioNode: HTMLAudioElement) => audioNode.pause());
-    } else if (syncPlayState.ended) {
-      syncPlayList.forEach((audioNode: HTMLAudioElement) => audioNode.pause());
+$: if (syncPlayState && syncPlayList.length) {
+  console.debug(syncPlayState, syncPlayList);
+  if (syncPlayState.play) {
+    for (const audioNode of syncPlayList) {
+      audioNode.play();
+    }
+  } else if (syncPlayState.paused) {
+    for (const audioNode of syncPlayList) {
+      audioNode.pause();
+    }
+  } else if (syncPlayState.ended) {
+    for (const audioNode of syncPlayList) {
+      audioNode.pause();
     }
   }
+}
 
-  const onTimeUpdate = (
-    e: Event & {
-      currentTarget: EventTarget & HTMLAudioElement;
-    },
-    take: ExtendedTake,
-  ) => {
-    // TODO: Fix timebar in Takes
-    take.currentTime = e.currentTarget.currentTime;
-    take.duration = e.currentTarget.duration;
-    const percent = take.currentTime / take.duration;
-    take.timePos = Math.floor(containerWidth * percent);
-  };
+const onTimeUpdate = (
+  e: Event & {
+    currentTarget: EventTarget & HTMLAudioElement;
+  },
+  take: ExtendedTake,
+) => {
+  // TODO: Fix timebar in Takes
+  take.currentTime = e.currentTarget.currentTime;
+  take.duration = e.currentTarget.duration;
+  const percent = take.currentTime / take.duration;
+  take.timePos = Math.floor(containerWidth * percent);
+};
 
-  const bindEl = (node: HTMLAudioElement, take: ExtendedTake) => {
-    take.audioEl = node;
-  };
+const bindEl = (node: HTMLAudioElement, take: ExtendedTake) => {
+  take.audioEl = node;
+};
 
-  const dispatch = createEventDispatcher();
-  $: if (currentTakes) {
-    extendedTakes.set(
-      currentTakes.map(
-        (take) =>
-          ({
-            ...take,
-            audioEl: undefined,
-            duration: 0,
-            currentTime: 0,
-            timePos: 0,
-          }) as ExtendedTake,
-      ),
-    );
-  }
+const dispatch = createEventDispatcher();
+$: if (currentTakes) {
+  extendedTakes.set(
+    currentTakes.map(
+      (take) =>
+        ({
+          ...take,
+          audioEl: undefined,
+          duration: 0,
+          currentTime: 0,
+          timePos: 0,
+        }) as ExtendedTake,
+    ),
+  );
+}
 </script>
 
 {#if $extendedTakes.length > 0}
   <ul class="list-inside">
-    {#each $extendedTakes as take, i}
+    {#each $extendedTakes as take (take.uuid)}
       <li class="mb-4">
         <div class="flex items-center justify-end">
           <div class="flex">

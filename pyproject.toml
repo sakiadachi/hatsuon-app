@@ -40,6 +40,7 @@ typing_extensions = "4.11.0"
 urllib3 = "2.2.1"
 whitenoise = "6.6.0"
 django-cleanup = "^8.1.0"
+pre-commit = "^3.8.0"
 
 
 [build-system]

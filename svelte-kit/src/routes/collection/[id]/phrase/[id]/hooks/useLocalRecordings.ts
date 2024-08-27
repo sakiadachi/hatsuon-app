@@ -7,7 +7,6 @@ export type RecordingType = {
   file: File;
 };
 
-const isRecording = writable(false);
 const localRecordings: Writable<RecordingType[]> = writable([]);
 const recordWithPhrase = writable(false);
 
@@ -24,20 +23,18 @@ const saveRecording = (recording: RecordingType, phrase_id: number) => {
   formData.append("recording", recording.file);
   formData.append("phrase", phrase_id.toString());
 
-  return fetchApi(`api/v1/takes/`, {
+  return fetchApi("api/v1/takes/", {
     method: "POST",
     body: formData,
   });
 };
 
 const resetState = () => {
-  isRecording.set(false);
   localRecordings.set([]);
   recordWithPhrase.set(false);
 };
 
 export default {
-  isRecording,
   localRecordings,
   recordWithPhrase,
   filterRecording,

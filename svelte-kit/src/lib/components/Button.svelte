@@ -1,10 +1,12 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  export let text: string;
-  export let type: "submit" | "reset" | "button" | undefined = "button";
-  export let isDisabled: boolean | undefined = undefined;
+import { createEventDispatcher } from "svelte";
+export let text: string;
+// biome-ignore lint/style/useConst: <explanation>
+export let type: "submit" | "reset" | "button" | undefined = undefined;
+// biome-ignore lint/style/useConst: <explanation>
+export let isDisabled: boolean | undefined = undefined;
 
-  const dispatch = createEventDispatcher();
+const dispatch = createEventDispatcher();
 </script>
 
 <button

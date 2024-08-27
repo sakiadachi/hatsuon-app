@@ -1,6 +1,6 @@
 <script lang="ts">
-  export let text: string;
-  export let href: string;
+export let text: string;
+export let href: string;
 </script>
 
 <a

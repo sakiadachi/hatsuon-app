@@ -1,9 +1,12 @@
 <script lang="ts">
-  import LinkBtn from "$lib/components/LinkBtn.svelte";
-  import CollectionList from "./CollectionList.svelte";
+import LinkBtn from "$lib/components/LinkBtn.svelte";
+import CollectionList from "./CollectionList.svelte";
 
-  export let data;
-  const { collections } = data;
+export let data: {
+  loginState: boolean;
+  collections: Collection[];
+};
+const { collections } = data;
 </script>
 
 <svelte:head>
@@ -12,10 +15,11 @@
 </svelte:head>
 
 <section>
+  <h1>Collections</h1>
   {#if collections.length}
     <CollectionList {collections} />
   {/if}
   <div class="flex justify-end mt-10">
-    <LinkBtn text="Add" href="/collection/create" />
+    <LinkBtn text="Add Collection" href="/collection/create" />
   </div>
 </section>
