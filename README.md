@@ -15,7 +15,7 @@ Upload the phrase that you want to practice, and compare with your recordings!
 - [ ] CRUD: Deleting Models (Collection, Phrase, Take) from FE
 - [ ] CRUD: Updating Models (Collection, Phrase, Take) from FE
 - [ ] Propery show detailed error messages, especially in login page
-- [ ] Add precommit hook to run biome formatter / linter
+- [x] Add precommit hook to run biome formatter / linter
 
 # Requirements
 
