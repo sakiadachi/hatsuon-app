@@ -65,7 +65,19 @@ POSTGRES_USER=<dbusername>
 POSTGRES_PASSWORD=<dbpassword>
 ```
 
+If you have a database connection URL, you can also put the following contents
+in the `.env` file:
 
+```
+# .env
+CSRF_TRUSTED_ORIGINS=http://localhost
+CORS_ALLOWED_ORIGINS=http://localhost
+DEBUG=True
+# Refer to the following link for the URL schema reference:
+# https://github.com/jazzband/dj-database-url?tab=readme-ov-file#url-schema
+# This is an example value for when you want to connect to PostgreSQL using a
+# Unix domain socket:
+DATABASE_URL=postgres://%2Ftmp/<dbname>
 ```
 
 To install all Poetry packages, run the following in your shell. Please ensure
