@@ -102,7 +102,12 @@ WSGI_APPLICATION = "hatsuon.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-if DEBUG:
+if "DATABASE_URL" in os.environ:
+    import dj_database_url
+    DATABASES = {
+        "default": dj_database_url.config(),
+    }
+elif DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
